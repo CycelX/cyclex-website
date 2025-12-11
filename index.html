@@ -533,38 +533,35 @@
         grid-template-columns: 1fr;
       }
     }
-    <!-- Reward Calculator Modal -->
-<div id="calculatorModal" class="calculator-modal">
-  <div class="calculator-content">
-    <span class="closeCalc">&times;</span>
+    .calculator-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(6px);
+  z-index: 99999;
+  justify-content: center;
+  align-items: center;
+}
 
-    <h2>Reward Calculator</h2>
-    <p class="calc-desc">
-      Estimate your CycleX compound rewards.
-    </p>
+.calculator-content {
+  background: #0f1624;
+  padding: 26px;
+  border-radius: 18px;
+  width: 350px;
+  color: white;
+  box-shadow: 0 0 40px rgba(0,255,150,0.25);
+  position: relative;
+}
 
-    <label>Tokens you hold:</label>
-    <input id="calcTokens" type="number" placeholder="Enter amount..." />
-
-    <label>Number of cycles:</label>
-    <select id="calcCycles">
-      <option value="1">1 cycle</option>
-      <option value="2">2 cycles</option>
-      <option value="4">4 cycles (1 year)</option>
-      <option value="8">8 cycles (2 years)</option>
-      <option value="12">12 cycles (3 years)</option>
-    </select>
-
-    <button id="calcRun">Calculate</button>
-
-    <div id="calcResult"></div>
-
-    <p class="calc-note">
-      Rewards compound automatically if you continue holding.<br>
-      You must claim each cycle to receive the reward.
-    </p>
-  </div>
-</div>
+.closeCalc {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  cursor: pointer;
+  font-size: 20px;
+  color: #aaa;
+}
   </style>
 </head>
 <body>
@@ -1583,9 +1580,36 @@
         openEligibilityModal();
       }
     });
+    // --- Reward Calculator Logic ---
+document.getElementById("openCalculator").onclick = () => {
+  document.getElementById("calculatorModal").style.display = "flex";
+};
+
+document.querySelector(".closeCalc").onclick = () => {
+  document.getElementById("calculatorModal").style.display = "none";
+};
+
+document.getElementById("calcRun").onclick = () => {
+  const tokens = parseFloat(document.getElementById("calcTokens").value);
+  const cycles = parseInt(document.getElementById("calcCycles").value);
+  const rate = 1.09;
+
+  if (!tokens || tokens <= 0) {
+    document.getElementById("calcResult").innerHTML = "Enter a valid amount.";
+    return;
+  }
+
+  let final = tokens * Math.pow(rate, cycles);
+  let profit = final - tokens;
+
+  document.getElementById("calcResult").innerHTML = `
+    Final amount: <span style="color:#00e676">${final.toLocaleString()}</span> CYCX<br>
+    Profit: <span style="color:#00e676">${profit.toLocaleString()}</span> CYCX
+  `;
+};
   </script>
   <!-- Reward Calculator Modal -->
-<div id="calculatorModal" class="calculator-modal">
+<div id="calculatorModal" class="calculator-modal" style="display:none;">
   <div class="calculator-content">
     <span class="closeCalc">&times;</span>
 
@@ -1616,34 +1640,6 @@
     </p>
   </div>
 </div>
-  // --- Reward Calculator Logic ---
-
-document.getElementById("openCalculator").onclick = () => {
-  document.getElementById("calculatorModal").style.display = "flex";
-};
-
-document.querySelector(".closeCalc").onclick = () => {
-  document.getElementById("calculatorModal").style.display = "none";
-};
-
-document.getElementById("calcRun").onclick = () => {
-  const tokens = parseFloat(document.getElementById("calcTokens").value);
-  const cycles = parseInt(document.getElementById("calcCycles").value);
-  const rate = 1.09;
-
-  if (!tokens || tokens <= 0) {
-    document.getElementById("calcResult").innerHTML = "Enter a valid amount.";
-    return;
-  }
-
-  let final = tokens * Math.pow(rate, cycles);
-  let profit = final - tokens;
-
-  document.getElementById("calcResult").innerHTML = `
-    Final amount: <span style="color:#00e676">${final.toLocaleString()}</span> CYCX<br>
-    Profit: <span style="color:#00e676">${profit.toLocaleString()}</span> CYCX
-  `;
-};
 
 </body>
 </html>
