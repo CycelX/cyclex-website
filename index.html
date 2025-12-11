@@ -506,6 +506,116 @@
       padding-left: 16px;
       list-style-type: disc;
     }
+    /* Reward calculator modal */
+    .calculator-modal {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.72);
+      backdrop-filter: blur(10px);
+      z-index: 60;
+    }
+
+    .calculator-modal.active {
+      display: flex;
+    }
+
+    .calculator-content {
+      width: min(380px, 92vw);
+      background: radial-gradient(circle at 0 0, #ffffff10 0, transparent 55%),
+                  radial-gradient(circle at 100% 0, #00e5ff22 0, transparent 45%),
+                  rgba(8, 10, 24, 0.98);
+      border-radius: 20px;
+      padding: 20px 20px 18px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      box-shadow: 0 26px 80px rgba(0, 0, 0, 0.9);
+      color: var(--text-main);
+    }
+
+    .calculator-content h2 {
+      font-size: 20px;
+      margin-bottom: 6px;
+    }
+
+    .calc-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+
+    .calculator-content label {
+      display: block;
+      font-size: 13px;
+      margin-top: 8px;
+      margin-bottom: 4px;
+      text-align: left;
+    }
+
+    .calculator-content input,
+    .calculator-content select {
+      width: 100%;
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      background: rgba(5, 7, 18, 0.9);
+      color: var(--text-main);
+      font-size: 13px;
+      outline: none;
+    }
+
+    .calculator-content input:focus,
+    .calculator-content select:focus {
+      border-color: var(--accent-cyan);
+    }
+
+    #calcRun {
+      width: 100%;
+      margin-top: 12px;
+      border-radius: 999px;
+      border: none;
+      padding: 10px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      cursor: pointer;
+      background: linear-gradient(135deg, var(--accent-green), #b9ffcf);
+      color: #020308;
+      box-shadow: 0 14px 40px rgba(0, 230, 118, 0.4);
+      transition: transform 0.18s ease-out, box-shadow 0.18s ease-out;
+    }
+
+    #calcRun:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 18px 60px rgba(0, 230, 118, 0.7);
+    }
+
+    #calcResult {
+      margin-top: 10px;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .calc-note {
+      margin-top: 10px;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .closeCalc {
+      position: absolute;
+      top: 8px;
+      right: 12px;
+      cursor: pointer;
+      font-size: 18px;
+      color: var(--text-muted);
+    }
+
+    .closeCalc:hover {
+      color: var(--text-main);
+    }
 
     @media (max-width: 768px) {
       .page-shell {
@@ -533,35 +643,7 @@
         grid-template-columns: 1fr;
       }
     }
-    .calculator-modal {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.7);
-  backdrop-filter: blur(6px);
-  z-index: 99999;
-  justify-content: center;
-  align-items: center;
-}
-
-.calculator-content {
-  background: #0f1624;
-  padding: 26px;
-  border-radius: 18px;
-  width: 350px;
-  color: white;
-  box-shadow: 0 0 40px rgba(0,255,150,0.25);
-  position: relative;
-}
-
-.closeCalc {
-  position: absolute;
-  top: 8px;
-  right: 12px;
-  cursor: pointer;
-  font-size: 20px;
-  color: #aaa;
-}
+  
   </style>
 </head>
 <body>
@@ -832,6 +914,38 @@
       </p>
     </div>
   </div>
+    <!-- Reward Calculator Modal -->
+  <div id="calculatorModal" class="calculator-modal" aria-hidden="true">
+    <div class="calculator-content">
+      <span class="closeCalc" id="closeCalc">&times;</span>
+
+      <h2>Reward Calculator</h2>
+      <p class="calc-desc">
+        Estimate your long-term CycleX rewards with compounding cycles.
+      </p>
+
+      <label for="calcTokens">Tokens you hold:</label>
+      <input id="calcTokens" type="number" placeholder="Enter amount..." />
+
+      <label for="calcCycles">Number of cycles:</label>
+      <select id="calcCycles">
+        <option value="1">1 cycle</option>
+        <option value="2">2 cycles</option>
+        <option value="4">4 cycles (≈ 1 year)</option>
+        <option value="8">8 cycles (≈ 2 years)</option>
+        <option value="12">12 cycles (≈ 3 years)</option>
+      </select>
+
+      <button id="calcRun">Calculate</button>
+
+      <div id="calcResult"></div>
+
+      <p class="calc-note">
+        Rewards compound if you keep holding your CYCX and claim every cycle.
+      </p>
+    </div>
+  </div>
+
 
   <!-- Load ethers.js -->
 <script src="https://cdn.jsdelivr.net/npm/ethers@6.7.1/dist/ethers.umd.min.js"></script>
@@ -1580,66 +1694,68 @@
         openEligibilityModal();
       }
     });
-    // --- Reward Calculator Logic ---
-document.getElementById("openCalculator").onclick = () => {
-  document.getElementById("calculatorModal").style.display = "flex";
-};
+        // -------- REWARD CALCULATOR LOGIC --------
+    const calcModal = document.getElementById("calculatorModal");
+    const openCalcBtn = document.getElementById("openCalculator");
+    const closeCalcBtn = document.getElementById("closeCalc");
+    const calcRunBtn = document.getElementById("calcRun");
+    const calcTokensInput = document.getElementById("calcTokens");
+    const calcCyclesSelect = document.getElementById("calcCycles");
+    const calcResultBox = document.getElementById("calcResult");
 
-document.querySelector(".closeCalc").onclick = () => {
-  document.getElementById("calculatorModal").style.display = "none";
-};
+    function openCalculator() {
+      if (!calcModal) return;
+      calcModal.classList.add("active");
+      document.body.style.overflow = "hidden";
+      calcResultBox.innerHTML = "";
+    }
 
-document.getElementById("calcRun").onclick = () => {
-  const tokens = parseFloat(document.getElementById("calcTokens").value);
-  const cycles = parseInt(document.getElementById("calcCycles").value);
-  const rate = 1.09;
+    function closeCalculator() {
+      if (!calcModal) return;
+      calcModal.classList.remove("active");
+      document.body.style.overflow = "";
+    }
 
-  if (!tokens || tokens <= 0) {
-    document.getElementById("calcResult").innerHTML = "Enter a valid amount.";
-    return;
-  }
+    if (openCalcBtn) {
+      openCalcBtn.addEventListener("click", openCalculator);
+    }
 
-  let final = tokens * Math.pow(rate, cycles);
-  let profit = final - tokens;
+    if (closeCalcBtn) {
+      closeCalcBtn.addEventListener("click", closeCalculator);
+    }
 
-  document.getElementById("calcResult").innerHTML = `
-    Final amount: <span style="color:#00e676">${final.toLocaleString()}</span> CYCX<br>
-    Profit: <span style="color:#00e676">${profit.toLocaleString()}</span> CYCX
-  `;
-};
+    if (calcModal) {
+      calcModal.addEventListener("click", (e) => {
+        if (e.target === calcModal) {
+          closeCalculator();
+        }
+      });
+    }
+
+    if (calcRunBtn) {
+      calcRunBtn.addEventListener("click", () => {
+        const tokens = parseFloat(calcTokensInput.value);
+        const cycles = parseInt(calcCyclesSelect.value, 10);
+        const rate = 1.09; // 9% per cycle
+
+        if (!tokens || tokens <= 0) {
+          calcResultBox.innerHTML = "Enter a valid token amount.";
+          return;
+        }
+
+        const finalAmount = tokens * Math.pow(rate, cycles);
+        const profit = finalAmount - tokens;
+
+        calcResultBox.innerHTML = `
+          Final amount after ${cycles} cycle(s): 
+          <span style="color:#00e676">${finalAmount.toLocaleString("en-US", { maximumFractionDigits: 2 })}</span> CYCX<br/>
+          Profit over starting balance: 
+          <span style="color:#00e676">${profit.toLocaleString("en-US", { maximumFractionDigits: 2 })}</span> CYCX
+        `;
+      });
+    }
+
+  
   </script>
-  <!-- Reward Calculator Modal -->
-<div id="calculatorModal" class="calculator-modal" style="display:none;">
-  <div class="calculator-content">
-    <span class="closeCalc">&times;</span>
-
-    <h2>Reward Calculator</h2>
-    <p class="calc-desc">
-      Estimate your CycleX compound rewards.
-    </p>
-
-    <label>Tokens you hold:</label>
-    <input id="calcTokens" type="number" placeholder="Enter amount..." />
-
-    <label>Number of cycles:</label>
-    <select id="calcCycles">
-      <option value="1">1 cycle</option>
-      <option value="2">2 cycles</option>
-      <option value="4">4 cycles (1 year)</option>
-      <option value="8">8 cycles (2 years)</option>
-      <option value="12">12 cycles (3 years)</option>
-    </select>
-
-    <button id="calcRun">Calculate</button>
-
-    <div id="calcResult"></div>
-
-    <p class="calc-note">
-      Rewards compound automatically if you continue holding.<br>
-      You must claim each cycle to receive the reward.
-    </p>
-  </div>
-</div>
-
 </body>
 </html>
