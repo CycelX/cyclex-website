@@ -582,18 +582,24 @@
   font-size: 18px;       
 }
 
-.closeCalc {
+.calc-close-x {
   position: absolute;
-  top: 10px;
-  right: 14px;
-  font-size: 22px;
+  top: 18px;
+  right: 20px;
+  background: none;
+  border: none;
+  font-size: 26px;
+  color: #ffffffc7;
   cursor: pointer;
-  color: var(--text-muted);
-  transition: 0.2s;
+  transition: 0.2s ease;
+  z-index: 10;
 }
-.closeCalc:hover {
-  color: var(--text-main);
+
+.calc-close-x:hover {
+  color: #ffffff;
+  transform: scale(1.05);
 }
+
    .calc-close-btn {
     position: absolute;
     top: 18px;
@@ -611,41 +617,7 @@
     color: #fff;
     transform: scale(1.15);
 }
-    /* Fix dropdown styling */
-.calculator-content select {
-    appearance: none;
-    -moz-appearance: none;
-    -webkit-appearance: none;
-
-    background-color: #0d0f12;
-    border: 1px solid #2a2f36;
-    border-radius: 50px;
-    padding: 14px 45px 14px 20px; /* more right padding for arrow spacing */
-    font-size: 18px;
-    width: 100%;
-    color: #fff;
-    outline: none;
-    cursor: pointer;
-    position: relative;
-}
-
-/* Custom arrow */
-.calculator-content select::-ms-expand {
-    display: none;
-}
-
-.calculator-content select::after {
-    content: "▼";
-    color: #888;
-    font-size: 14px;
-    position: absolute;
-    right: 22px;
-    top: 50%;
-    transform: translateY(-50%);
-    pointer-events: none;
-}
-
-
+  
 
     #calcRun {
       width: 100%;
@@ -991,43 +963,45 @@
       </p>
     </div>
   </div>
-    <!-- Reward Calculator Modal -->
-  <div id="calculatorModal" class="calculator-modal" aria-hidden="true">
-    <div class="calculator-content">
+   <!-- Reward Calculator Modal -->
+<div id="calculatorModal" class="calculator-modal" aria-hidden="true">
+  <div class="calculator-content">
+    <button class="calc-close-x" id="calcCloseBtn">&times;</button>
 
-        <!-- CLOSE BUTTON (Correct Placement) -->
-        <button id="calcCloseBtn" class="calc-close-btn">&times;</button>
+    <h2>Reward Calculator</h2>
+    <p class="calc-desc">
+      Estimate your long-term CycleX rewards with compounding cycles.
+    </p>
 
-        <h2>Reward Calculator</h2>
-        <p class="calc-desc">
-            Estimate your long-term CycleX rewards with compounding cycles.
-        </p>
+    <label>Tokens you hold:</label>
+    <input type="number" id="calcTokensInput" placeholder="Enter amount..." />
 
-      <label for="calcTokens">Tokens you hold:</label>
-      <input id="calcTokens" type="number" placeholder="Enter amount..." />
+    <label>Number of cycles:</label>
 
-      <label for="calcCycles">Number of cycles:</label>
-      <select id="calcCycles">
+    <div class="select-wrapper">
+      <select id="calcCyclesSelect">
         <option value="1">1 cycle</option>
-        <option value="2">2 cycles</option>
         <option value="4">4 cycles (≈ 1 year)</option>
-        <option value="8">8 cycles (≈ 2 years)</option>
         <option value="12">12 cycles (≈ 3 years)</option>
+        <option value="20">20 cycles (≈ 5 years)</option>
       </select>
-
-      <button id="calcRun">Calculate</button>
-
-      <div id="calcResult"></div>
-
-      <p class="calc-note">
-        CycleX pays 9% every reward cycle.<br>
-  If you hold your tokens (including the rewards you claim) without selling or moving them,<br>
-  you earn compound rewards — meaning each cycle is calculated on top of the previous one.<br><br>
-  <strong>Claim is required every cycle to receive your rewards.<br>
-  Unclaimed rewards do not roll over.</strong>
-      </p>
     </div>
+
+    <button id="calcRunBtn" class="calc-btn">CALCULATE</button>
+
+    <div id="calcResultBox" class="calc-result"></div>
+
+    <p class="calc-note">
+      CycleX pays 9% every reward cycle.<br>
+      If you hold your tokens (including the rewards you claim) without selling or moving them,<br>
+      you earn compound rewards — meaning each cycle is calculated on top of the previous one.
+      <br><br>
+      <b>Claim is required every cycle to receive your rewards.<br>
+      Unclaimed rewards do not roll over.</b>
+    </p>
+
   </div>
+</div>
 
 
   <!-- Load ethers.js -->
