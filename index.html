@@ -570,16 +570,18 @@
       border-color: var(--accent-cyan);
     }
     .calc-disclaimer {
-  margin-top: 14px;
-  font-size: 12px;
-  line-height: 1.45;
+  margin-top: 18px;
+  font-size: 14px;       
+  line-height: 1.55;
   color: var(--text-muted);
   text-align: left;
-  opacity: 0.9;
 }
+
 .calc-disclaimer strong {
-  color: #ffb74d;
+  color: #ffcc80;       
+  font-size: 15px;       
 }
+
 .closeCalc {
   position: absolute;
   top: 10px;
@@ -592,6 +594,23 @@
 .closeCalc:hover {
   color: var(--text-main);
 }
+    .calc-close-btn {
+  position: absolute;
+  top: 14px;
+  right: 18px;
+  font-size: 26px;
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.calc-close-btn:hover {
+  color: var(--text-main);
+  transform: scale(1.1);
+}
+
 
     #calcRun {
       width: 100%;
@@ -940,6 +959,8 @@
     <!-- Reward Calculator Modal -->
   <div id="calculatorModal" class="calculator-modal" aria-hidden="true">
     <div class="calculator-content">
+      <button class="calc-close-btn" id="calcCloseBtn">&times;</button>
+
     <span class="closeCalc" id="closeCalc">&times;</span>
 
       <h2>Reward Calculator</h2>
@@ -1780,6 +1801,10 @@
           <span style="color:#00e676">${profit.toLocaleString("en-US", { maximumFractionDigits: 2 })}</span> CYCX
         `;
       });
+      document.getElementById("calcCloseBtn").onclick = () => {
+  document.getElementById("calculatorModal").style.display = "none";
+};
+
     }
 
   
