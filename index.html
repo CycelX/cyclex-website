@@ -579,7 +579,7 @@
 
 .calc-disclaimer strong {
   color: #ffcc80;       
-  font-size: 15px;       
+  font-size: 18px;       
 }
 
 .closeCalc {
@@ -594,22 +594,57 @@
 .closeCalc:hover {
   color: var(--text-main);
 }
-    .calc-close-btn {
-  position: absolute;
-  top: 14px;
-  right: 18px;
-  font-size: 26px;
-  background: transparent;
-  border: none;
-  color: var(--text-muted);
-  cursor: pointer;
-  transition: 0.2s;
+   .calc-close-btn {
+    position: absolute;
+    top: 18px;
+    right: 22px;
+    font-size: 36px;
+    font-weight: 300;
+    color: #ffffffcc;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: 0.2s ease;
 }
 
 .calc-close-btn:hover {
-  color: var(--text-main);
-  transform: scale(1.1);
+    color: #fff;
+    transform: scale(1.15);
 }
+    /* Fix dropdown styling */
+.calculator-content select {
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+
+    background-color: #0d0f12;
+    border: 1px solid #2a2f36;
+    border-radius: 50px;
+    padding: 14px 45px 14px 20px; /* more right padding for arrow spacing */
+    font-size: 18px;
+    width: 100%;
+    color: #fff;
+    outline: none;
+    cursor: pointer;
+    position: relative;
+}
+
+/* Custom arrow */
+.calculator-content select::-ms-expand {
+    display: none;
+}
+
+.calculator-content select::after {
+    content: "▼";
+    color: #888;
+    font-size: 14px;
+    position: absolute;
+    right: 22px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
 
 
     #calcRun {
@@ -959,14 +994,14 @@
     <!-- Reward Calculator Modal -->
   <div id="calculatorModal" class="calculator-modal" aria-hidden="true">
     <div class="calculator-content">
-      <button class="calc-close-btn" id="calcCloseBtn">&times;</button>
 
-    <span class="closeCalc" id="closeCalc">&times;</span>
+        <!-- CLOSE BUTTON (Correct Placement) -->
+        <button id="calcCloseBtn" class="calc-close-btn">&times;</button>
 
-      <h2>Reward Calculator</h2>
-      <p class="calc-desc">
-        Estimate your long-term CycleX rewards with compounding cycles.
-      </p>
+        <h2>Reward Calculator</h2>
+        <p class="calc-desc">
+            Estimate your long-term CycleX rewards with compounding cycles.
+        </p>
 
       <label for="calcTokens">Tokens you hold:</label>
       <input id="calcTokens" type="number" placeholder="Enter amount..." />
