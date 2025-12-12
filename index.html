@@ -1027,8 +1027,8 @@
 
   <!-- Web3Modal V3 – Full Wallet List -->
 <script type="module">
-  import * as wagmi from "https://unpkg.com/@wagmi/core@1.4.7/dist/wagmi-core.js";
-  window.wagmi = wagmi;
+  import * as wagmi from "https://unpkg.com/@wagmi/core@1.4.7/dist/wagmi-core.js?module";
+window.wagmi = wagmi;
 
   import { createWeb3Modal, defaultWagmiConfig } 
     from "https://unpkg.com/@web3modal/wagmi@3.5.7/dist/wagmi.js";
@@ -1068,7 +1068,7 @@
   }
 });
 
-window.cxModal = modal;   // ✔️ תקין
+window.cxModal = modal;
 
   window.cxConnectWallet = async function () {
   try {
