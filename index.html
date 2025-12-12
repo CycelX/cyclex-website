@@ -1016,9 +1016,6 @@
 
   <!-- Load ethers.js -->
 <script src="https://cdn.jsdelivr.net/npm/ethers@6.7.1/dist/ethers.umd.min.js"></script>
-<!-- Web3Modal v1 + WalletConnect provider -->
-<script src="https://unpkg.com/web3modal@1.9.12/dist/index.js"></script>
-<script src="https://unpkg.com/@walletconnect/web3-provider@1.8.0/dist/umd/index.min.js"></script>
 
   <script>
     // -------- TRANSLATIONS --------
@@ -1562,57 +1559,77 @@
         proof
       };
     }
-    async function cxEnsureWeb3() {
-  // לוקחים את הקלאס מה-UMD (יש מקרים שהוא תחת .default)
-  const Web3ModalCtor = window.Web3Modal?.default || window.Web3Modal;
-  const WalletConnectProviderCtor =
-    window.WalletConnectProvider?.default || window.WalletConnectProvider;
+   <!-- Web3Modal v3 -->
+<script type="module">
+  import { createWeb3Modal, defaultWagmiConfig } from "https://unpkg.com/@web3modal/wagmi@3.5.7/dist/wagmi.js";
+  import { bsc } from "https://unpkg.com/@wagmi/core@1.4.7/chains";
 
-  if (!Web3ModalCtor) {
-    alert("Web3Modal library failed to load.");
-    throw new Error("Web3Modal not loaded");
-  }
+  // ******* הגדרות CycleX *******
+  const projectId = "d91c22a9f6ae27cd37d7fc36d8a0295d";  // ה-projectId שלך
+  const metadata = {
+    name: "CycleX",
+    description: "AI-Secured Rewards",
+    url: "https://cyclex-website.vercel.app",
+    icons: ["https://cyclex-website.vercel.app/logo.png"]
+  };
 
-  // הגדרות ספקים ל-Web3Modal v1
-  const providerOptions = {};
-
-  // אם WalletConnect Provider נטען – נוסיף אותו
-  if (WalletConnectProviderCtor) {
-    providerOptions.walletconnect = {
-      package: WalletConnectProviderCtor,
-      options: {
-        rpc: {
-          56: "https://bsc-dataseed.binance.org/", // BSC mainnet
-        },
-        chainId: 56,
-      },
-    };
-  }
-
-  // יצירת המודאל
-  const web3Modal = new Web3ModalCtor({
-    cacheProvider: false,
-    providerOptions,
+  // wagmi config — מחבר את BSC
+  const chains = [bsc];
+  const wagmiConfig = defaultWagmiConfig({
+    chains,
+    projectId,
+    metadata,
+    enableWalletConnect: true
   });
 
-  // פתיחת חלון בחירת ארנק (MetaMask / WalletConnect וכו')
-  const instance = await web3Modal.connect();
+  // יצירת Web3Modal (החלון היפה)
+  createWeb3Modal({
+    wagmiConfig,
+    projectId,
+    chains,
+    themeMode: "dark",
+    themeVariables: {
+      "--w3m-accent-color": "#00e5ff",
+      "--w3m-border-radius": "20px",
+      "--w3m-font-size-master": "16px"
+    }
+  });
 
-  // עטיפה ל-ethers v6
-  cxProvider = new ethers.BrowserProvider(instance);
-  cxSigner = await cxProvider.getSigner();
-  cxUserAddress = (await cxSigner.getAddress()).toLowerCase();
+  // פונקציה לחיבור הארנק (נחליף את הפונקציה הישנה)
+  window.cxConnectWallet = async function () {
+    try {
+      const { getAccount, getWalletClient } = window.wagmi;
+      await window.w3m.open();   // פותח את חלון הארנקים החדש
 
-  // חוזה ה-CycleX
-  cxContract = new ethers.Contract(
-    CX_CONTRACT_ADDRESS,
-    [
-      "function claim(uint256 cycleId, address account, uint256 amount, bytes32[] calldata proof) external",
-      "function hasClaimed(uint256 cycleId, address account) view returns (bool)",
-    ],
-    cxSigner
-  );
-}
+      const acc = getAccount();
+      if (!acc?.address) {
+        alert("Wallet connection failed.");
+        return;
+      }
+
+      const client = await getWalletClient();
+      window.cxUserAddress = acc.address.toLowerCase();
+      window.cxSigner = new ethers.BrowserProvider(client).getSigner();
+
+      // חוזה
+      window.cxContract = new ethers.Contract(
+        "0xda63b65825AE30532a507B0C091B0bD9F8204F7E",
+        [
+          "function claim(uint256 cycleId, address account, uint256 amount, bytes32[] calldata proof) external",
+          "function hasClaimed(uint256 cycleId, address account) view returns (bool)"
+        ],
+        await window.cxSigner
+      );
+
+      // המשך תהליך ה-claim כרגיל
+      cxConnectAndCheck();  
+    } catch (err) {
+      console.error(err);
+      alert("Wallet connection failed.");
+    }
+  }
+</script>
+
 
     function cxEnsureClaimButton() {
       const modal = document.querySelector("#claim-modal-backdrop .modal");
@@ -1633,7 +1650,7 @@
    async function cxConnectAndCheck() {
   try {
     // 1) התחברות לארנק (פותח את Web3Modal ומחכה לבחירה)
-    await cxEnsureWeb3();
+    await cxConnectWallet();
 
     // 2) אם לא נוצר חיבור אמיתי – לעצור
     if (!cxUserAddress) {
