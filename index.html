@@ -689,14 +689,13 @@
       .stats-grid {
         grid-template-columns: 1fr;
       }
-      #w3m-modal {
-  z-index: 999999999 !important;
-}
-#w3m-overlay {
-  z-index: 999999998 !important;
-}
-
     }
+    #w3m-modal {
+    z-index: 999999999 !important;
+  }
+  #w3m-overlay {
+    z-index: 999999998 !important;
+  }
   </style>
 </head>
 <body>
@@ -1107,6 +1106,10 @@ window.cxModal = modal;
     );
 
     cxConnectAndCheck();
+    // Re-open the claim modal after connecting
+document.getElementById("claim-modal-backdrop").classList.add("active");
+document.getElementById("claim-modal-backdrop").setAttribute("aria-hidden", "false");
+
   } catch (err) {
     console.error(err);
     alert("Wallet connection error.");
@@ -1785,8 +1788,10 @@ async function cxPerformClaim() {
     document
   .getElementById("btn-connect-wallet")
   .addEventListener("click", () => {
-    cxConnectWallet(); 
-  });
+     closeModal();       
+     cxConnectWallet(); 
+});
+
     
     // Presale link placeholder – replace with real PinkSale URL
     document.getElementById("presale-link").addEventListener("click", (e) => {
