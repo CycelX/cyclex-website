@@ -1005,17 +1005,68 @@
 <script src="https://unpkg.com/@reown/sdk@1.1.0/dist/index.umd.js"></script>
 
 <script>
-  const WALLETCONNECT_PROJECT_ID = "d91c22a9f6ae27cd37d7fc36d8a0295d";
+  <script>
+const WALLETCONNECT_PROJECT_ID = "d91c22a9f6ae27cd37d7fc36d8a0295d";
 
-  const wallet = new ReownSDK({
-    projectId: WALLETCONNECT_PROJECT_ID,
-    metadata: {
-      name: "CycleX",
-      description: "AI-powered reward ecosystem",
-      url: "https://cyclex.app",
-      icons: ["https://cyclex.app/logo.png"]
+const wallet = new ReownSDK({
+  projectId: WALLETCONNECT_PROJECT_ID,
+  chains: ["eip155:56"], // BNB Smart Chain
+  metadata: {
+    name: "CycleX",
+    description: "AI-secured reward ecosystem",
+    url: "https://cyclex.app",
+    icons: []
+  }
+});
+
+document.getElementById("btn-connect-wallet").addEventListener("click", async () => {
+  try {
+    const session = await wallet.connect();
+
+    if (!session || !session.accounts || !session.accounts[0]) {
+      alert("Wallet connection canceled.");
+      return;
     }
-  });
+
+    const address = session.accounts[0].address.toLowerCase();
+
+    // provider שה-Reown מספק
+    const provider = wallet.getWalletProvider();
+    const ethersProvider = new ethers.BrowserProvider(provider);
+    const signer = await ethersProvider.getSigner();
+
+    cxUserAddress = address;
+    cxProvider = ethersProvider;
+    cxSigner = signer;
+
+    cxContract = new ethers.Contract(
+      CX_CONTRACT_ADDRESS,
+      [
+        "function claim(uint256 cycleId, address account, uint256 amount, bytes32[] calldata proof) external",
+        "function hasClaimed(uint256 cycleId, address account) view returns (bool)"
+      ],
+      cxSigner
+    );
+
+    await cxLoadMerkleData();
+
+    const alloc = cxGetUserAllocation(address);
+
+    if (!alloc) {
+      alert("Your wallet is NOT eligible for this reward cycle.");
+      return;
+    }
+
+    const human = ethers.formatUnits(alloc.amount, 18);
+    alert(`You ARE eligible.\nWallet: ${address}\nAmount: ${human} CYCX`);
+
+    cxEnsureClaimButton();
+
+  } catch (err) {
+    console.error(err);
+    alert("Wallet connection failed.");
+  }
+});
 </script>
 
   <!-- Load ethers.js -->
