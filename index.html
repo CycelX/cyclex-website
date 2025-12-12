@@ -462,6 +462,18 @@
       color: var(--text-main);
       border-color: rgba(255, 255, 255, 0.4);
     }
+    /* Force Web3Modal v1 to appear above your claim modal */
+.web3modal-modal-container,
+.web3modal-modal-lightbox,
+.web3modal-provider-wrapper,
+.web3modal-provider-container {
+  z-index: 999999 !important;
+  position: relative !important;
+}
+
+.web3modal-modal-overlay {
+  z-index: 999998 !important;
+}
 
     .modal-caption {
       font-size: 11px;
