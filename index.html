@@ -1004,8 +1004,9 @@
 
   <!-- Load ethers.js -->
 <script src="https://cdn.jsdelivr.net/npm/ethers@6.7.1/dist/ethers.umd.min.js"></script>
-<!-- WalletConnect Web3Modal (handles MetaMask + WC + all wallets) -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/web3modal/1.9.12/index.min.js"></script>
+<!-- Web3Modal v1 + WalletConnect provider -->
+<script src="https://unpkg.com/web3modal@1.9.12/dist/index.js"></script>
+<script src="https://unpkg.com/@walletconnect/web3-provider@1.8.0/dist/umd/index.min.js"></script>
 
   <script>
     // -------- TRANSLATIONS --------
@@ -1550,40 +1551,55 @@
       };
     }
 async function cxEnsureWeb3() {
-if (!window.Web3Modal) {
-    alert("Web3Modal library not loaded.");
+async function cxEnsureWeb3() {
+  // לוקחים את הקלאס מה-UMD (יש מקרים שהוא תחת .default)
+  const Web3ModalCtor = window.Web3Modal?.default || window.Web3Modal;
+  const WalletConnectProviderCtor =
+    window.WalletConnectProvider?.default || window.WalletConnectProvider;
+
+  if (!Web3ModalCtor) {
+    alert("Web3Modal library failed to load.");
     throw new Error("Web3Modal not loaded");
   }
 
-  // Initialize Web3Modal
-  const modal = new window.WalletConnectWeb3Modal.Web3Modal({
-    projectId: WC_PROJECT_ID,
-    themeMode: "dark",
-    chains: [WC_CHAIN_ID],
-    walletConnectVersion: 2
+  const providerOptions = {
+    // זה נותן רשימת ארנקים דרך WalletConnect (Trust, OKX, ועוד)
+    walletconnect: {
+      package: WalletConnectProviderCtor,
+      options: {
+        rpc: {
+          56: "https://bsc-dataseed.binance.org/", // BSC mainnet
+        },
+        chainId: 56,
+      },
+    },
+  };
+
+  // יצירת המודאל
+  const web3Modal = new Web3ModalCtor({
+    cacheProvider: false,
+    providerOptions,
   });
 
-  // User selects wallet (MetaMask, Trust, Coinbase, QR, etc.)
-  const session = await modal.connect();
+  // פתיחת חלון בחירת ארנק
+  const instance = await web3Modal.connect();
 
-  // Wrap provider for ethers.js
-  const eipProvider = modal.getWalletProvider();
-
-  cxProvider = new ethers.BrowserProvider(eipProvider);
+  // עטיפה ל-ethers v6
+  cxProvider = new ethers.BrowserProvider(instance);
   cxSigner = await cxProvider.getSigner();
   cxUserAddress = (await cxSigner.getAddress()).toLowerCase();
 
- 
+  // חוזה ה-CYCLEX
+  cxContract = new ethers.Contract(
+    CX_CONTRACT_ADDRESS,
+    [
+      "function claim(uint256 cycleId, address account, uint256 amount, bytes32[] calldata proof) external",
+      "function hasClaimed(uint256 cycleId, address account) view returns (bool)",
+    ],
+    cxSigner
+  );
+}
 
-      cxContract = new ethers.Contract(
-        CX_CONTRACT_ADDRESS,
-        [
-          "function claim(uint256 cycleId, address account, uint256 amount, bytes32[] calldata proof) external",
-          "function hasClaimed(uint256 cycleId, address account) view returns (bool)"
-        ],
-        cxSigner
-      );
-    }
 
 
     function cxEnsureClaimButton() {
