@@ -1005,7 +1005,7 @@
   <!-- Load ethers.js -->
 <script src="https://cdn.jsdelivr.net/npm/ethers@6.7.1/dist/ethers.umd.min.js"></script>
 <!-- WalletConnect Web3Modal (handles MetaMask + WC + all wallets) -->
-<script src="https://cdn.jsdelivr.net/npm/@walletconnect/web3modal@2.7.3/dist/index.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/web3modal/1.9.12/index.min.js"></script>
 
   <script>
     // -------- TRANSLATIONS --------
@@ -1550,7 +1550,7 @@
       };
     }
 async function cxEnsureWeb3() {
-  if (!window.WalletConnectWeb3Modal) {
+if (!window.Web3Modal) {
     alert("Web3Modal library not loaded.");
     throw new Error("Web3Modal not loaded");
   }
