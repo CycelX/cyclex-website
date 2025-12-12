@@ -1002,29 +1002,41 @@
   </div>
 
 
-  <!-- Load ethers.js -->
-<script src="https://cdn.jsdelivr.net/npm/ethers@6.7.1/dist/ethers.umd.min.js"></script>
-  <!-- Web3Modal v3 (correct placement) -->
+  <!-- Web3Modal V3 – Full Wallet List -->
 <script type="module">
   import { createWeb3Modal, defaultWagmiConfig } from "https://unpkg.com/@web3modal/wagmi@3.5.7/dist/wagmi.js";
   import { bsc } from "https://unpkg.com/@wagmi/core@1.4.7/chains";
 
+  /* --------------------------
+     CONTRACT + PROJECT CONFIG
+  --------------------------- */
+
+  const CX_CONTRACT_ADDRESS = "0xda63b65825AE30532a507B0C091B0bD9F8204F7E";
   const projectId = "d91c22a9f6ae27cd37d7fc36d8a0295d";
+
   const metadata = {
-    name: "CycleX",
-    description: "AI-Secured Rewards",
+    name: "CycleX Claim Portal",
+    description: "AI-Secured Quarterly Rewards",
     url: window.location.origin,
     icons: [window.location.origin + "/logo.png"]
   };
 
+  /* -------------
+      WAGMI CONFIG
+  -------------- */
   const chains = [bsc];
+
   const wagmiConfig = defaultWagmiConfig({
-    chains,
+    appName: "CycleX Claim Portal",
     projectId,
+    chains,
     metadata,
     enableWalletConnect: true
   });
 
+  /* ---------------------
+     CREATE WEB3MODAL UI
+  ---------------------- */
   createWeb3Modal({
     wagmiConfig,
     projectId,
@@ -1037,24 +1049,31 @@
     }
   });
 
+  /* -------------------------
+     MAIN CONNECT FUNCTION
+  -------------------------- */
   window.cxConnectWallet = async function () {
     try {
-      const { getAccount, getWalletClient } = window.wagmi;
-
-      // פותח את רשימת הארנקים
+      // פותח את חלון הארנקים עם כל הרשימה
       await window.w3m.open();
 
+      const { getAccount, getWalletClient } = window.wagmi;
       const acc = getAccount();
-      if (!acc?.address) {
+
+      if (!acc || !acc.address) {
         alert("Wallet connection failed.");
         return;
       }
 
-      const client = await getWalletClient();
+      // מחזיר את הכתובת
       window.cxUserAddress = acc.address.toLowerCase();
-      window.cxProvider = new ethers.BrowserProvider(client);
-      window.cxSigner = await window.cxProvider.getSigner();
 
+      // יוצר signer דרך wagmi client
+      const client = await getWalletClient();
+      const provider = new ethers.BrowserProvider(client);
+      window.cxSigner = await provider.getSigner();
+
+      // יצירת אובייקט חוזה
       window.cxContract = new ethers.Contract(
         CX_CONTRACT_ADDRESS,
         [
@@ -1064,11 +1083,12 @@
         window.cxSigner
       );
 
-      // אחרי התחברות מוצלחת — ממשיך כרגיל
-      window.cxConnectAndCheck();
+      // ממשיך לבדיקה
+      cxConnectAndCheck();
+
     } catch (err) {
       console.error(err);
-      alert("Wallet connection failed.");
+      alert("Wallet connection error.");
     }
   };
 </script>
@@ -1635,23 +1655,12 @@
         modal.appendChild(btn);
       }
     }
-async function cxConnectAndCheck() {
+
+  async function cxConnectAndCheck() {
   try {
-    // 1) אם אין ארנק – לחבר
-    if (!cxUserAddress) {
-      await cxConnectWallet();
-    }
-
-    // אם עדיין אין – לעצור
-    if (!cxUserAddress) {
-      alert("Wallet connection failed. Please try again.");
-      return;
-    }
-
-    // 2) טוען את קבצי המרקל
+    // Load Merkle + proofs
     await cxLoadMerkleData();
 
-    // 3) מוצא אלוקציה לפי הכתובת
     const addr = cxUserAddress.toLowerCase();
     const alloc = cxGetUserAllocation(addr);
 
@@ -1659,6 +1668,23 @@ async function cxConnectAndCheck() {
       alert("Your wallet is NOT eligible for this reward cycle.");
       return;
     }
+
+    const human = ethers.formatUnits(alloc.amount, 18);
+
+    alert(
+      "You ARE eligible for this cycle.\nWallet: " +
+      addr +
+      "\nAmount: " + human + " CYCX"
+    );
+
+    cxEnsureClaimButton();
+
+  } catch (err) {
+    console.error(err);
+    alert("Something went wrong while checking eligibility.");
+  }
+}
+
 
     // 4) מציג מידע למשתמש
     const human = ethers.formatUnits(alloc.amount, 18);
