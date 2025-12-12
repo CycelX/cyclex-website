@@ -1003,13 +1003,12 @@
 
 <!-- Reown WalletConnect -->
 <script src="https://unpkg.com/@reown/sdk@1.1.0/dist/index.umd.js"></script>
-
-  <script>
+<script>
 const WALLETCONNECT_PROJECT_ID = "d91c22a9f6ae27cd37d7fc36d8a0295d";
 
-const wallet = new ReownSDK({
+const wallet = new Reown.WalletConnect({
   projectId: WALLETCONNECT_PROJECT_ID,
-  chains: ["eip155:56"], // BNB Smart Chain
+  chains: ["eip155:56"],
   metadata: {
     name: "CycleX",
     description: "AI-secured reward ecosystem",
@@ -1029,8 +1028,7 @@ document.getElementById("btn-connect-wallet").addEventListener("click", async ()
 
     const address = session.accounts[0].address.toLowerCase();
 
-    // provider שה-Reown מספק
-    const provider = wallet.getWalletProvider();
+    const provider = wallet.getProvider();
     const ethersProvider = new ethers.BrowserProvider(provider);
     const signer = await ethersProvider.getSigner();
 
@@ -1048,7 +1046,6 @@ document.getElementById("btn-connect-wallet").addEventListener("click", async ()
     );
 
     await cxLoadMerkleData();
-
     const alloc = cxGetUserAllocation(address);
 
     if (!alloc) {
