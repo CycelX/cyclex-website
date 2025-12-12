@@ -1056,52 +1056,57 @@
     enableWalletConnect: true
   });
 
-  createWeb3Modal({
-    wagmiConfig,
-    projectId,
-    chains,
-    themeMode: "dark",
-    themeVariables: {
-      "--w3m-accent-color": "#00e5ff",
-      "--w3m-border-radius": "20px",
-      "--w3m-font-size-master": "16px"
-    }
+  const modal = createWeb3Modal({
+  wagmiConfig,
+  projectId,
+  chains,
+  themeMode: "dark",
+  themeVariables: {
+    "--w3m-accent-color": "#00e5ff",
+    "--w3m-border-radius": "20px",
+    "--w3m-font-size-master": "16px"
+  }
+});
+
+// expose globally
+window.cxModal = modal;
+
   });
 
   window.cxConnectWallet = async function () {
-    try {
-      await window.w3m.open();
+  try {
+    await window.cxModal.open();
 
-      const { getAccount, getWalletClient } = window.wagmi;
+    const { getAccount, getWalletClient } = window.wagmi;
+    const acc = getAccount();
 
-      const acc = getAccount();
-      if (!acc || !acc.address) {
-        alert("Wallet connection failed.");
-        return;
-      }
-
-      window.cxUserAddress = acc.address.toLowerCase();
-
-      const client = await getWalletClient();  // עכשיו זה יעבוד
-      const provider = new ethers.BrowserProvider(client);
-      window.cxSigner = await provider.getSigner();
-
-      window.cxContract = new ethers.Contract(
-        CX_CONTRACT_ADDRESS,
-        [
-          "function claim(uint256 cycleId, address account, uint256 amount, bytes32[] calldata proof) external",
-          "function hasClaimed(uint256 cycleId, address account) view returns (bool)"
-        ],
-        window.cxSigner
-      );
-
-      cxConnectAndCheck();
-
-    } catch (err) {
-      console.error(err);
-      alert("Wallet connection error.");
+    if (!acc?.address) {
+      alert("Wallet connection failed.");
+      return;
     }
-  };
+
+    window.cxUserAddress = acc.address.toLowerCase();
+
+    const client = await getWalletClient();
+    const provider = new ethers.BrowserProvider(client);
+    window.cxSigner = await provider.getSigner();
+
+    window.cxContract = new ethers.Contract(
+      CX_CONTRACT_ADDRESS,
+      [
+        "function claim(uint256 cycleId, address account, uint256 amount, bytes32[] calldata proof) external",
+        "function hasClaimed(uint256 cycleId, address account) view returns (bool)"
+      ],
+      window.cxSigner
+    );
+
+    cxConnectAndCheck();
+  } catch (err) {
+    console.error(err);
+    alert("Wallet connection error.");
+  }
+};
+
 </script>
 
 
