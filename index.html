@@ -1635,23 +1635,24 @@
         modal.appendChild(btn);
       }
     }
-
-   async function cxConnectAndCheck() {
+async function cxConnectAndCheck() {
   try {
+    // 1) אם אין ארנק – לחבר
     if (!cxUserAddress) {
-    await cxConnectWallet();
+      await cxConnectWallet();
+    }
 
-    // 2) אם לא נוצר חיבור אמיתי – לעצור
+    // אם עדיין אין – לעצור
     if (!cxUserAddress) {
       alert("Wallet connection failed. Please try again.");
       return;
     }
 
-    // 3) טוען נתוני מרקל
+    // 2) טוען את קבצי המרקל
     await cxLoadMerkleData();
 
-    // 4) מוצא אלוקציה
-    const addr = cxUserAddress;
+    // 3) מוצא אלוקציה לפי הכתובת
+    const addr = cxUserAddress.toLowerCase();
     const alloc = cxGetUserAllocation(addr);
 
     if (!alloc) {
@@ -1659,17 +1660,24 @@
       return;
     }
 
-    // 5) אם יש זכאות – מציג מידע
+    // 4) מציג מידע למשתמש
     const human = ethers.formatUnits(alloc.amount, 18);
-    alert("You ARE eligible for this cycle.\nWallet: " + addr + "\nAmount: " + human + " CYCX");
+    alert(
+      "You ARE eligible for this cycle.\nWallet: " +
+        addr +
+        "\nAmount: " +
+        human +
+        " CYCX"
+    );
 
-    // 6) מציג כפתור CLAIM
+    // 5) מוודא שיש כפתור Claim בתוך המודל
     cxEnsureClaimButton();
-
   } catch (err) {
     console.error(err);
+    alert("Something went wrong while checking eligibility.");
   }
 }
+
 
     async function cxPerformClaim() {
       if (!cxUserAddress || !cxContract || !cxProofsData) {
