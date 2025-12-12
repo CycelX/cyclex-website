@@ -1004,8 +1004,8 @@
 
   <!-- Load ethers.js -->
 <script src="https://cdn.jsdelivr.net/npm/ethers@6.7.1/dist/ethers.umd.min.js"></script>
- <!-- Load WalletConnect Provider -->
-<script src="https://unpkg.com/@walletconnect/ethereum-provider@2.11.1/dist/umd/index.min.js"></script>
+<!-- WalletConnect Web3Modal (handles MetaMask + WC + all wallets) -->
+<script src="https://unpkg.com/@walletconnect/web3modal@2.7.3/dist/index.umd.js"></script>
 
 
 
@@ -1555,50 +1555,41 @@
     }
 
        async function cxEnsureWeb3() {
-      // משתמשים ב-WalletConnect Ethereum Provider במקום window.ethereum
-      if (!window.WalletConnectEthereumProvider) {
-        alert("WalletConnect provider library not loaded.");
-        throw new Error("No WalletConnectEthereumProvider");
-      }
+         async function cxEnsureWeb3() {
+  if (!window.WalletConnectWeb3Modal) {
+    alert("Web3Modal library not loaded.");
+    throw new Error("Web3Modal not loaded");
+  }
 
-      // יוצרים instance אחד בלבד ושומרים אותו ל-session
-      if (!wcProvider) {
-        wcProvider = await window.WalletConnectEthereumProvider.init({
-          projectId: WC_PROJECT_ID,
-          chains: [WC_CHAIN_ID],
-          showQrModal: true,
-          optionalChains: [WC_CHAIN_ID],
-          metadata: {
-            name: "CycleX – Claim Portal",
-            description: "Quarterly rewards claim for CycleX (CYCX).",
-            url: window.location.origin,
-            icons: [window.location.origin + "/logo.png"]
-          },
-          qrModalOptions: {
-            themeMode: "dark",
-            themeVariables: {
-              "--w3m-accent-color": "#00e5ff",
-              "--w3m-background-color": "#050509"
-            }
-          }
-        });
+  // Initialize Web3Modal
+  const modal = new window.WalletConnectWeb3Modal.Web3Modal({
+    projectId: WC_PROJECT_ID,
+    themeMode: "dark",
+    chains: [WC_CHAIN_ID],
+    walletConnectVersion: 2
+  });
 
-        // אופציונלי: ניקוי אחרי ניתוק
-        wcProvider.on("disconnect", () => {
-          cxProvider = null;
-          cxSigner = null;
-          cxContract = null;
-          cxUserAddress = null;
-        });
-      }
+  // User selects wallet (MetaMask, Trust, Coinbase, QR, etc.)
+  const session = await modal.connect();
 
-      // פותח את ה-QR / רשימת הארנקים של WalletConnect
-      await wcProvider.connect();
+  // Wrap provider for ethers.js
+  const eipProvider = modal.getWalletProvider();
 
-      // מחברים את ethers ל-provider של WalletConnect
-      cxProvider = new ethers.BrowserProvider(wcProvider);
-      cxSigner = await cxProvider.getSigner();
-      cxUserAddress = (await cxSigner.getAddress()).toLowerCase();
+  cxProvider = new ethers.BrowserProvider(eipProvider);
+  cxSigner = await cxProvider.getSigner();
+  cxUserAddress = (await cxSigner.getAddress()).toLowerCase();
+
+  cxContract = new ethers.Contract(
+    CX_CONTRACT_ADDRESS,
+    [
+      "function claim(uint256 cycleId, address account, uint256 amount, bytes32[] calldata proof) external",
+      "function hasClaimed(uint256 cycleId, address account) view returns (bool)"
+    ],
+    cxSigner
+  );
+}
+
+
 
       cxContract = new ethers.Contract(
         CX_CONTRACT_ADDRESS,
