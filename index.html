@@ -1027,12 +1027,14 @@
 
   <!-- Web3Modal V3 – Full Wallet List -->
 <script type="module">
-  import { createWeb3Modal, defaultWagmiConfig } from "https://unpkg.com/@web3modal/wagmi@3.5.7/dist/wagmi.js";
-  import { bsc } from "https://unpkg.com/@wagmi/core@1.4.7/chains";
+  import * as wagmi from "https://unpkg.com/@wagmi/core@1.4.7/dist/wagmi-core.js";
+  window.wagmi = wagmi;
 
-  /* --------------------------
-     CONTRACT + PROJECT CONFIG
-  --------------------------- */
+  import { createWeb3Modal, defaultWagmiConfig } 
+    from "https://unpkg.com/@web3modal/wagmi@3.5.7/dist/wagmi.js";
+
+  import { bsc } 
+    from "https://unpkg.com/@wagmi/core@1.4.7/chains";
 
   const CX_CONTRACT_ADDRESS = "0xda63b65825AE30532a507B0C091B0bD9F8204F7E";
   const projectId = "d91c22a9f6ae27cd37d7fc36d8a0295d";
@@ -1044,9 +1046,6 @@
     icons: [window.location.origin + "/logo.png"]
   };
 
-  /* -------------
-      WAGMI CONFIG
-  -------------- */
   const chains = [bsc];
 
   const wagmiConfig = defaultWagmiConfig({
@@ -1057,9 +1056,6 @@
     enableWalletConnect: true
   });
 
-  /* ---------------------
-     CREATE WEB3MODAL UI
-  ---------------------- */
   createWeb3Modal({
     wagmiConfig,
     projectId,
@@ -1072,31 +1068,24 @@
     }
   });
 
-  /* -------------------------
-     MAIN CONNECT FUNCTION
-  -------------------------- */
   window.cxConnectWallet = async function () {
     try {
-      // פותח את חלון הארנקים עם כל הרשימה
       await window.w3m.open();
 
       const { getAccount, getWalletClient } = window.wagmi;
-      const acc = getAccount();
 
+      const acc = getAccount();
       if (!acc || !acc.address) {
         alert("Wallet connection failed.");
         return;
       }
 
-      // מחזיר את הכתובת
       window.cxUserAddress = acc.address.toLowerCase();
 
-      // יוצר signer דרך wagmi client
-      const client = await getWalletClient();
+      const client = await getWalletClient();  // עכשיו זה יעבוד
       const provider = new ethers.BrowserProvider(client);
       window.cxSigner = await provider.getSigner();
 
-      // יצירת אובייקט חוזה
       window.cxContract = new ethers.Contract(
         CX_CONTRACT_ADDRESS,
         [
@@ -1106,7 +1095,6 @@
         window.cxSigner
       );
 
-      // ממשיך לבדיקה
       cxConnectAndCheck();
 
     } catch (err) {
@@ -1115,6 +1103,7 @@
     }
   };
 </script>
+
 
 
   <script>
