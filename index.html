@@ -1007,8 +1007,6 @@
 <!-- WalletConnect Web3Modal (handles MetaMask + WC + all wallets) -->
 <script src="https://unpkg.com/@walletconnect/web3modal@2.7.3/dist/index.umd.js"></script>
 
-
-
   <script>
     // -------- TRANSLATIONS --------
     const translations = {
@@ -1515,8 +1513,6 @@
     let cxUserAddress = null;
     let cxRewardsData = null;
     let cxProofsData = null;
-    let wcProvider = null; // WalletConnect provider instance
-
 
     async function cxLoadMerkleData() {
       try {
@@ -1577,17 +1573,7 @@ async function cxEnsureWeb3() {
   cxSigner = await cxProvider.getSigner();
   cxUserAddress = (await cxSigner.getAddress()).toLowerCase();
 
-  cxContract = new ethers.Contract(
-    CX_CONTRACT_ADDRESS,
-    [
-      "function claim(uint256 cycleId, address account, uint256 amount, bytes32[] calldata proof) external",
-      "function hasClaimed(uint256 cycleId, address account) view returns (bool)"
-    ],
-    cxSigner
-  );
-}
-
-      
+ 
 
       cxContract = new ethers.Contract(
         CX_CONTRACT_ADDRESS,
