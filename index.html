@@ -1004,6 +1004,9 @@
 
   <!-- Load ethers.js -->
 <script src="https://cdn.jsdelivr.net/npm/ethers@6.7.1/dist/ethers.umd.min.js"></script>
+  <!-- Load WalletConnect Ethereum Provider v2 -->
+<script src="https://unpkg.com/@walletconnect/ethereum-provider@2.11.1/dist/index.umd.min.js"></script>
+
 
   <script>
     // -------- TRANSLATIONS --------
@@ -1496,10 +1499,14 @@
 
     // -------- CLAIM MODAL --------
     // -------- CYCLEX MERKLE CLAIM SYSTEM (FRONTEND) --------
-    const CX_CONTRACT_ADDRESS = "0xda63b65825AE30532a507B0C091B0bD9F8204F7E";
+       const CX_CONTRACT_ADDRESS = "0xda63b65825AE30532a507B0C091B0bD9F8204F7E";
     const CX_CURRENT_CYCLE_ID = 1; // update if you open a new cycle
     const CX_PROOFS_URL = "/proofs.json";
     const CX_REWARDS_URL = "/rewards.json";
+
+    // WalletConnect config
+    const WC_PROJECT_ID = "d91c22a9f6ae27cd37d7fc36d8a0295d";
+    const WC_CHAIN_ID = 56; // BNB Smart Chain (mainnet)
 
     let cxProvider = null;
     let cxSigner = null;
@@ -1507,6 +1514,8 @@
     let cxUserAddress = null;
     let cxRewardsData = null;
     let cxProofsData = null;
+    let wcProvider = null; // WalletConnect provider instance
+
 
     async function cxLoadMerkleData() {
       try {
@@ -1544,22 +1553,62 @@
       };
     }
 
-    async function cxEnsureWeb3() {
-      if (!window.ethereum) {
-        alert("Web3 wallet (MetaMask) not detected in this browser.");
-        throw new Error("No ethereum provider");
+       async function cxEnsureWeb3() {
+      // משתמשים ב-WalletConnect Ethereum Provider במקום window.ethereum
+      if (!window.WalletConnectEthereumProvider) {
+        alert("WalletConnect provider library not loaded.");
+        throw new Error("No WalletConnectEthereumProvider");
       }
 
-      if (!cxProvider) {
-        cxProvider = new ethers.BrowserProvider(window.ethereum);
-        cxSigner = await cxProvider.getSigner();
-        cxUserAddress = (await cxSigner.getAddress()).toLowerCase();
-        cxContract = new ethers.Contract(CX_CONTRACT_ADDRESS, [
+      // יוצרים instance אחד בלבד ושומרים אותו ל-session
+      if (!wcProvider) {
+        wcProvider = await window.WalletConnectEthereumProvider.init({
+          projectId: WC_PROJECT_ID,
+          chains: [WC_CHAIN_ID],
+          showQrModal: true,
+          optionalChains: [WC_CHAIN_ID],
+          metadata: {
+            name: "CycleX – Claim Portal",
+            description: "Quarterly rewards claim for CycleX (CYCX).",
+            url: window.location.origin,
+            icons: [window.location.origin + "/logo.png"]
+          },
+          qrModalOptions: {
+            themeMode: "dark",
+            themeVariables: {
+              "--w3m-accent-color": "#00e5ff",
+              "--w3m-background-color": "#050509"
+            }
+          }
+        });
+
+        // אופציונלי: ניקוי אחרי ניתוק
+        wcProvider.on("disconnect", () => {
+          cxProvider = null;
+          cxSigner = null;
+          cxContract = null;
+          cxUserAddress = null;
+        });
+      }
+
+      // פותח את ה-QR / רשימת הארנקים של WalletConnect
+      await wcProvider.connect();
+
+      // מחברים את ethers ל-provider של WalletConnect
+      cxProvider = new ethers.BrowserProvider(wcProvider);
+      cxSigner = await cxProvider.getSigner();
+      cxUserAddress = (await cxSigner.getAddress()).toLowerCase();
+
+      cxContract = new ethers.Contract(
+        CX_CONTRACT_ADDRESS,
+        [
           "function claim(uint256 cycleId, address account, uint256 amount, bytes32[] calldata proof) external",
           "function hasClaimed(uint256 cycleId, address account) view returns (bool)"
-        ], cxSigner);
-      }
+        ],
+        cxSigner
+      );
     }
+
 
     function cxEnsureClaimButton() {
       const modal = document.querySelector("#claim-modal-backdrop .modal");
