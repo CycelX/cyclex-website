@@ -1046,6 +1046,10 @@ const CX_CONTRACT_ADDRESS = "0xda63b65825AE30532a507B0C091B0bD9F8204F7E";
 const projectId = "d91c22a9f6ae27cd37d7fc36d8a0295d";
 
 window.wagmi = wagmi;
+window.cxRewardsData = null;
+window.cxProofsData = null;
+window.cxPendingAlloc = null;
+
 
 // metadata for wallet list
 const metadata = {
@@ -1616,21 +1620,13 @@ window.cxConnectWallet = async function () {
 
     // -------- CLAIM MODAL --------
     // -------- CYCLEX MERKLE CLAIM SYSTEM (FRONTEND) --------
-       const CX_CONTRACT_ADDRESS = "0xda63b65825AE30532a507B0C091B0bD9F8204F7E";
-    const CX_CURRENT_CYCLE_ID = 1; // update if you open a new cycle
-    const CX_PROOFS_URL = "/proofs.json";
-    const CX_REWARDS_URL = "/rewards.json";
+       const CX_CURRENT_CYCLE_ID = 1;
+const CX_PROOFS_URL = "/proofs.json";
+const CX_REWARDS_URL = "/rewards.json";
 
-    // WalletConnect config
-    const WC_PROJECT_ID = "d91c22a9f6ae27cd37d7fc36d8a0295d";
-    const WC_CHAIN_ID = 56; // BNB Smart Chain (mainnet)
+let cxRewardsData = null;
+let cxProofsData = null;
 
-    let cxProvider = null;
-    let cxSigner = null;
-    let cxContract = null;
-    let cxUserAddress = null;
-    let cxRewardsData = null;
-    let cxProofsData = null;
 
     async function cxLoadMerkleData() {
       try {
@@ -1793,7 +1789,6 @@ async function cxPerformClaim() {
     document
   .getElementById("btn-connect-wallet")
   .addEventListener("click", () => {
-     closeModal();       
      cxConnectWallet(); 
 });
 
