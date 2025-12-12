@@ -1035,12 +1035,17 @@
 
 <!-- Web3Modal + Claim Logic -->
 <script type="module">
-
 import { createWeb3Modal, defaultWagmiConfig } 
-  from "https://esm.sh/@web3modal/wagmi@3.5.7";
-import * as wagmi from "https://esm.sh/@wagmi/core@1.4.7";
-import { bsc } from "https://esm.sh/viem/chains";
-import { ethers } from "https://cdnjs.cloudflare.com/ajax/libs/ethers/6.8.1/ethers.esm.min.js";
+  from "https://unpkg.com/@web3modal/wagmi@3.5.7/dist/wagmi.js";
+
+import * as wagmi 
+  from "https://unpkg.com/@wagmi/core@1.4.7/dist/wagmi-core.js";
+
+import { bsc } 
+  from "https://unpkg.com/@wagmi/core@1.4.7/dist/chains/bsc.js";
+
+import { ethers } 
+  from "https://cdnjs.cloudflare.com/ajax/libs/ethers/6.8.1/ethers.esm.min.js";
 
 
 // -------------------------------
