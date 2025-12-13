@@ -1005,18 +1005,16 @@
     </div>
   </div>
 
+<!-- Web3Modal HTML SDK -->
+<script src="https://unpkg.com/@web3modal/html@2.6.2/dist/web3modal.min.js"></script>
 
 
   <!-- Load ethers.js -->
 <script src="https://cdn.jsdelivr.net/npm/ethers@6.7.1/dist/ethers.umd.min.js"></script>
 
-  <!-- Web3Modal (wagmi) -->
-<script src="https://unpkg.com/@web3modal/wagmi@3.5.7/dist/wagmi.umd.js"></script>
 <script>
   // ----- Web3Modal V3 setup -----
   const projectId = "d91c22a9f6ae27cd37d7fc36d8a0295d";
-
-  const { createWeb3Modal, defaultWagmiConfig } = window.Web3Modal;
 
   const bsc = {
     id: 56,
@@ -1111,6 +1109,59 @@
     }
   });
 </script>
+  <script>
+  const projectId = "d91c22a9f6ae27cd37d7fc36d8a0295d";
+
+  const modal = new Web3Modal({
+    projectId,
+    themeMode: "dark",
+    walletConnectVersion: 2,
+    chains: [56] // BNB Smart Chain
+  });
+
+  const connectBtn = document.getElementById("btn-connect-wallet");
+
+  connectBtn.addEventListener("click", async () => {
+    try {
+      const provider = await modal.connect();
+      const ethersProvider = new ethers.BrowserProvider(provider);
+      const signer = await ethersProvider.getSigner();
+
+      const address = (await signer.getAddress()).toLowerCase();
+      console.log("Connected wallet:", address);
+
+      cxUserAddress = address;
+      cxProvider = ethersProvider;
+      cxSigner = signer;
+
+      cxContract = new ethers.Contract(
+        CX_CONTRACT_ADDRESS,
+        [
+          "function claim(uint256 cycleId, address account, uint256 amount, bytes32[] calldata proof) external",
+          "function hasClaimed(uint256 cycleId, address account) view returns (bool)"
+        ],
+        cxSigner
+      );
+
+      await cxLoadMerkleData();
+      const alloc = cxGetUserAllocation(address);
+
+      if (!alloc) {
+        alert("Your wallet is NOT eligible for this reward cycle.");
+        return;
+      }
+
+      const human = ethers.formatUnits(alloc.amount, 18);
+      alert(`You ARE eligible.\nWallet: ${address}\nAmount: ${human} CYCX`);
+
+      cxEnsureClaimButton();
+    } catch (err) {
+      console.error(err);
+      alert("Wallet connection failed.");
+    }
+  });
+</script>
+
 
   
 
