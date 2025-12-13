@@ -1005,6 +1005,37 @@
   <!-- Load ethers.js -->
 <script src="https://cdn.jsdelivr.net/npm/ethers@6.7.1/dist/ethers.umd.min.js"></script>
 
+  <!-- ===== Reown AppKit (WalletConnect V3) ===== -->
+<script type="module">
+  import { createAppKit } from 'https://esm.sh/@reown/appkit@1.0.2'
+  import { EthersAdapter } from 'https://esm.sh/@reown/appkit-adapter-ethers@1.0.2'
+  import { bsc } from 'https://esm.sh/@reown/appkit/networks@1.0.2'
+
+  const appkit = createAppKit({
+    adapters: [new EthersAdapter()],
+    networks: [bsc],
+    projectId: 'd91c22a9f6ae27cd37d7fc36d8a0295d',
+    metadata: {
+      name: 'CycleX',
+      description: 'AI-Powered Secure Reward Ecosystem',
+      url: window.location.origin,
+      icons: []
+    }
+  });
+
+  // expose globally
+  window.cxOpenWalletModal = () => appkit.open();
+
+  appkit.subscribeState((state) => {
+    if (state.status === 'connected') {
+      window.cxWalletProvider = state.walletProvider;
+      window.cxWalletAddress  = state.address?.toLowerCase();
+      console.log('Wallet connected via AppKit:', state.address);
+    }
+  });
+</script>
+
+
   <script>
     // -------- TRANSLATIONS --------
     const translations = {
