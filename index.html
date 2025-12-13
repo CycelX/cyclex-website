@@ -1001,47 +1001,42 @@
     </div>
   </div>
 
-<!-- ✅ REQUIRED: process polyfill for WalletConnect -->
+<!-- REQUIRED: process polyfill (ONLY ONCE) -->
 <script>
   window.process = { env: { NODE_ENV: "production" } };
 </script>
 
+<!-- ethers MUST be loaded before WalletConnect -->
 <script src="https://cdn.jsdelivr.net/npm/ethers@6.7.1/dist/ethers.umd.min.js"></script>
 
+<!-- WalletConnect (simple, stable) -->
 <script type="module">
-  import { createAppKit } from "https://cdn.jsdelivr.net/npm/@reown/appkit@1.0.7/dist/appkit.esm.js";
-  import { mainnet, bsc } from "https://cdn.jsdelivr.net/npm/@reown/appkit@1.0.7/dist/networks.esm.js";
+  let wcProvider = null;
 
-  const appKit = createAppKit({
-    projectId: "d91c22a9f6ae27cd37d7fc36d8a0295d",
-    networks: [bsc],
-    metadata: {
-      name: "CycleX",
-      description: "CycleX Claim Portal",
-      url: window.location.origin,
-      icons: ["https://cyclex.io/logo.png"]
-    }
-  });
+  async function cxGetProvider() {
+    if (wcProvider) return wcProvider;
 
-  window.cxOpenWalletModal = () => appKit.open();
+    const module = await import(
+      "https://esm.sh/@walletconnect/ethereum-provider@2.17.0"
+    );
+
+    const EthereumProvider = module.default;
+
+    wcProvider = await EthereumProvider.init({
+      projectId: "d91c22a9f6ae27cd37d7fc36d8a0295d",
+      chains: [56],        // BNB Smart Chain
+      showQrModal: true    // ✅ רשימת ארנקים
+    });
+
+    await wcProvider.connect();
+    return wcProvider;
+  }
+
+  // expose globally (חשוב!)
+  window.cxGetProvider = cxGetProvider;
 </script>
 
-
-
-  // expose globally
-  window.cxOpenWalletModal = () => appkit.open();
-
-  appkit.subscribeState((state) => {
-    if (state.status === 'connected') {
-      window.cxWalletProvider = state.walletProvider;
-      window.cxWalletAddress  = state.address?.toLowerCase();
-      console.log('Wallet connected via AppKit:', state.address);
-    }
-  });
-</script>
-
-
-  <script>
+<script>
     // -------- TRANSLATIONS --------
     const translations = {
       en: {
@@ -1581,26 +1576,10 @@
     }
 
   async function cxEnsureWeb3() {
-  let providerSource = null;
-
-  // 1️⃣ MetaMask קיים – כמו היום
-  if (window.ethereum) {
-    providerSource = window.ethereum;
-  } 
-  // 2️⃣ אין MetaMask → WalletConnect
-  else {
-    const wcProvider = new WalletConnectProvider.default({
-      projectId: "d91c22a9f6ae27cd37d7fc36d8a0295d",
-      chains: [56],
-      showQrModal: true
-    });
-
-    await wcProvider.enable();
-    providerSource = wcProvider;
-  }
+  const provider = await cxGetProvider();
 
   if (!cxProvider) {
-    cxProvider = new ethers.BrowserProvider(providerSource);
+    cxProvider = new ethers.BrowserProvider(provider);
     cxSigner = await cxProvider.getSigner();
     cxUserAddress = (await cxSigner.getAddress()).toLowerCase();
 
@@ -1716,10 +1695,10 @@
 
     // Connect wallet + check eligibility using on-chain Merkle data
     document
-      .getElementById("btn-connect-wallet")
-      .addEventListener("click", () => {
-        cxConnectAndCheck();
-      });
+  .getElementById("btn-connect-wallet")
+  .addEventListener("click", async () => {
+    await cxGetProvider();
+  });
     
     // Presale link placeholder – replace with real PinkSale URL
     document.getElementById("presale-link").addEventListener("click", (e) => {
@@ -1867,7 +1846,6 @@
     }
 
   </script>
-  <script src="https://unpkg.com/@walletconnect/ethereum-provider@2.11.1/dist/index.umd.js"></script>
 
 </body>
 </html>
