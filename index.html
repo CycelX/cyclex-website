@@ -1003,9 +1003,7 @@
 
 
   <!-- Load ethers.js -->
-<script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
-  <script src="https://unpkg.com/@walletconnect/web3-provider@1.8.0/dist/umd/index.min.js"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/ethers@6.7.1/dist/ethers.umd.min.js"></script>
 
   <script>
     // -------- TRANSLATIONS --------
@@ -1498,6 +1496,9 @@
 
     // -------- CLAIM MODAL --------
     // -------- CYCLEX MERKLE CLAIM SYSTEM (FRONTEND) --------
+    // -------- WEB3MODAL STATE --------
+let web3Modal;
+let externalProvider;
     const CX_CONTRACT_ADDRESS = "0xda63b65825AE30532a507B0C091B0bD9F8204F7E";
     const CX_CURRENT_CYCLE_ID = 1; // update if you open a new cycle
     const CX_PROOFS_URL = "/proofs.json";
@@ -1545,34 +1546,6 @@
         proof
       };
     }
-
-    async function cxEnsureWeb3() {
-  if (cxProvider) return;
-
-  // תמיד WalletConnect V1 – בלי ברירת מחדל MetaMask
-  const wcProvider = new WalletConnectProvider.default({
-    rpc: {
-      56: "https://bsc-dataseed.binance.org/"
-    },
-    chainId: 56,
-    qrcode: true
-  });
-
-  await wcProvider.enable(); // פותח QR + רשימת ארנקים
-
-  cxProvider = new ethers.providers.Web3Provider(wcProvider);
-  cxSigner = cxProvider.getSigner();
-  cxUserAddress = (await cxSigner.getAddress()).toLowerCase();
-
-  cxContract = new ethers.Contract(
-    CX_CONTRACT_ADDRESS,
-    [
-      "function claim(uint256 cycleId, address account, uint256 amount, bytes32[] calldata proof) external",
-      "function hasClaimed(uint256 cycleId, address account) view returns (bool)"
-    ],
-    cxSigner
-  );
-}
 
 
     function cxEnsureClaimButton() {
@@ -1675,17 +1648,10 @@
 
     // Connect wallet + check eligibility using on-chain Merkle data
     document
-  .getElementById("btn-connect-wallet")
-  .addEventListener("click", async () => {
-    // סוגרים את ה-Claim popup כדי לא לחסום את WalletConnect
-    closeModal();
-
-    // מחכים רגע קטן לאנימציה (חשוב!)
-    setTimeout(() => {
-      cxConnectAndCheck();
-    }, 150);
-  });
-
+      .getElementById("btn-connect-wallet")
+      .addEventListener("click", () => {
+        cxConnectAndCheck();
+      });
     
     // Presale link placeholder – replace with real PinkSale URL
     document.getElementById("presale-link").addEventListener("click", (e) => {
