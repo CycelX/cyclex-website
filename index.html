@@ -1681,19 +1681,10 @@ document
   .getElementById("btn-connect-wallet")
   .addEventListener("click", async () => {
     try {
-      let provider;
+      // 🔥 תמיד פותח את Web3Modal
+      const externalProvider = await web3Modal.connect();
 
-      // 1️⃣ אם יש MetaMask – נפתח אותו ישירות
-      if (window.ethereum && window.ethereum.isMetaMask) {
-        await window.ethereum.request({ method: "eth_requestAccounts" });
-        provider = window.ethereum;
-      } 
-      // 2️⃣ אחרת – פותחים Web3Modal (WalletConnect / QR)
-      else {
-        provider = await web3Modal.connect();
-      }
-
-      const web3Provider = new ethers.providers.Web3Provider(provider);
+      const web3Provider = new ethers.providers.Web3Provider(externalProvider);
       const signer = web3Provider.getSigner();
       const address = await signer.getAddress();
 
@@ -1704,6 +1695,7 @@ document
       console.log("Wallet connection cancelled", err);
     }
   });
+
 
 
     // Presale link placeholder – replace with real PinkSale URL
