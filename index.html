@@ -359,6 +359,17 @@
     /* modal (shared) */
 
     .modal-backdrop {
+      /* When Web3Modal is open – send Claim modal behind */
+body.web3modal-open #claim-modal-backdrop {
+  z-index: 1 !important;
+  pointer-events: none;
+}
+
+/* Eligibility stays always on top */
+#eligibility-modal-backdrop {
+  z-index: 1000000;
+}
+
       position: fixed;
       inset: 0;
       background: rgba(0, 0, 0, 0.7);
@@ -687,14 +698,7 @@
       .stats-grid {
         grid-template-columns: 1fr;
       }
-      /* Force Web3Modal to appear above Claim modal */
-.web3modal-modal-lightbox {
-  z-index: 1000000 !important;
-}
-
-.web3modal-provider-container {
-  z-index: 1000001 !important;
-}
+ 
 
   </style>
 </head>
@@ -1689,8 +1693,13 @@ document
   .getElementById("btn-connect-wallet")
   .addEventListener("click", async () => {
     try {
-      // 🔥 תמיד פותח את Web3Modal
+      // 🔥 מוריד את Claim modal שכבה אחת אחורה
+      document.body.classList.add("web3modal-open");
+
       const externalProvider = await web3Modal.connect();
+
+      // מחזיר שכבות למצב רגיל
+      document.body.classList.remove("web3modal-open");
 
       const web3Provider = new ethers.providers.Web3Provider(externalProvider);
       const signer = web3Provider.getSigner();
@@ -1700,11 +1709,10 @@ document
       alert("Wallet connected: " + address);
 
     } catch (err) {
+      document.body.classList.remove("web3modal-open");
       console.log("Wallet connection cancelled", err);
     }
   });
-
-
 
     // Presale link placeholder – replace with real PinkSale URL
     document.getElementById("presale-link").addEventListener("click", (e) => {
