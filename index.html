@@ -1001,54 +1001,13 @@
     </div>
   </div>
 
-<!-- REQUIRED: process polyfill (ONLY ONCE) -->
-<script>
-  window.process = { env: { NODE_ENV: "production" } };
-</script>
 
-<!-- ethers MUST be loaded before WalletConnect -->
-<script src="https://cdn.jsdelivr.net/npm/ethers@6.7.1/dist/ethers.umd.min.js"></script>
-
-<!-- WalletConnect (simple, stable) -->
-<script type="module">
-  let wcProvider = null;
-
-  async function cxGetProvider() {
-    if (wcProvider) return wcProvider;
-
-    const module = await import(
-      "https://esm.sh/@walletconnect/ethereum-provider@2.17.0"
-    );
-
-    const EthereumProvider = module.default;
-
-    wcProvider = await EthereumProvider.init({
-  projectId: "d91c22a9f6ae27cd37d7fc36d8a0295d",
-  chains: [56],
-  showQrModal: false,
-
-  optionalChains: [],
-  optionalMethods: [],
-  optionalEvents: [],
-
-  metadata: {
-    name: "CycleX",
-    description: "CycleX Reward Claim Portal",
-    url: "https://cyclex-website.vercel.app",
-    icons: ["https://cyclex-website.vercel.app/favicon.ico"]
-  }
-});
+  <!-- Load ethers.js -->
+<script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+  <script src="https://unpkg.com/@walletconnect/web3-provider@1.8.0/dist/umd/index.min.js"></script>
 
 
-    await wcProvider.connect();
-    return wcProvider;
-  }
-
-  // expose globally (חשוב!)
-  window.cxGetProvider = cxGetProvider;
-</script>
-
-<script>
+  <script>
     // -------- TRANSLATIONS --------
     const translations = {
       en: {
@@ -1587,23 +1546,32 @@
       };
     }
 
-  async function cxEnsureWeb3() {
-  const provider = await cxGetProvider();
+    async function cxEnsureWeb3() {
+  if (cxProvider) return;
 
-  if (!cxProvider) {
-    cxProvider = new ethers.BrowserProvider(provider);
-    cxSigner = await cxProvider.getSigner();
-    cxUserAddress = (await cxSigner.getAddress()).toLowerCase();
+  // תמיד WalletConnect V1 – בלי ברירת מחדל MetaMask
+  const wcProvider = new WalletConnectProvider.default({
+    rpc: {
+      56: "https://bsc-dataseed.binance.org/"
+    },
+    chainId: 56,
+    qrcode: true
+  });
 
-    cxContract = new ethers.Contract(
-      CX_CONTRACT_ADDRESS,
-      [
-        "function claim(uint256 cycleId, address account, uint256 amount, bytes32[] calldata proof) external",
-        "function hasClaimed(uint256 cycleId, address account) view returns (bool)"
-      ],
-      cxSigner
-    );
-  }
+  await wcProvider.enable(); // פותח QR + רשימת ארנקים
+
+  cxProvider = new ethers.providers.Web3Provider(wcProvider);
+  cxSigner = cxProvider.getSigner();
+  cxUserAddress = (await cxSigner.getAddress()).toLowerCase();
+
+  cxContract = new ethers.Contract(
+    CX_CONTRACT_ADDRESS,
+    [
+      "function claim(uint256 cycleId, address account, uint256 amount, bytes32[] calldata proof) external",
+      "function hasClaimed(uint256 cycleId, address account) view returns (bool)"
+    ],
+    cxSigner
+  );
 }
 
 
@@ -1709,8 +1677,15 @@
     document
   .getElementById("btn-connect-wallet")
   .addEventListener("click", async () => {
-    await cxGetProvider();
+    // סוגרים את ה-Claim popup כדי לא לחסום את WalletConnect
+    closeModal();
+
+    // מחכים רגע קטן לאנימציה (חשוב!)
+    setTimeout(() => {
+      cxConnectAndCheck();
+    }, 150);
   });
+
     
     // Presale link placeholder – replace with real PinkSale URL
     document.getElementById("presale-link").addEventListener("click", (e) => {
@@ -1858,6 +1833,5 @@
     }
 
   </script>
-
 </body>
 </html>
