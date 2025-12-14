@@ -359,17 +359,6 @@
     /* modal (shared) */
 
     .modal-backdrop {
-      /* When Web3Modal is open – send Claim modal behind */
-body.web3modal-open #claim-modal-backdrop {
-  z-index: 1 !important;
-  pointer-events: none;
-}
-
-/* Eligibility stays always on top */
-#eligibility-modal-backdrop {
-  z-index: 1000000;
-}
-
       position: fixed;
       inset: 0;
       background: rgba(0, 0, 0, 0.7);
@@ -385,6 +374,11 @@ body.web3modal-open #claim-modal-backdrop {
       align-items: center !important;
       justify-content: center !important;
     }
+
+    /* Eligibility modal always above Claim modal */
+#eligibility-modal-backdrop {
+  z-index: 1000000;
+}
 
     .modal {
       width: min(420px, 92vw);
@@ -1693,13 +1687,15 @@ document
   .getElementById("btn-connect-wallet")
   .addEventListener("click", async () => {
     try {
-      // 🔥 מוריד את Claim modal שכבה אחת אחורה
-      document.body.classList.add("web3modal-open");
+      // 1️⃣ סגור את ה-Claim modal לפני פתיחת Web3Modal
+      const claimBackdrop = document.getElementById("claim-modal-backdrop");
+      claimBackdrop.classList.remove("active");
 
+      // 2️⃣ פתח Web3Modal (Uniswap-style)
       const externalProvider = await web3Modal.connect();
 
-      // מחזיר שכבות למצב רגיל
-      document.body.classList.remove("web3modal-open");
+      // 3️⃣ החזר את Claim modal אחרי החיבור
+      claimBackdrop.classList.add("active");
 
       const web3Provider = new ethers.providers.Web3Provider(externalProvider);
       const signer = web3Provider.getSigner();
@@ -1709,10 +1705,15 @@ document
       alert("Wallet connected: " + address);
 
     } catch (err) {
-      document.body.classList.remove("web3modal-open");
+      // אם המשתמש ביטל – נחזיר את המודאל
+      document
+        .getElementById("claim-modal-backdrop")
+        .classList.add("active");
+
       console.log("Wallet connection cancelled", err);
     }
   });
+
 
     // Presale link placeholder – replace with real PinkSale URL
     document.getElementById("presale-link").addEventListener("click", (e) => {
