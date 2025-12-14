@@ -1803,7 +1803,40 @@
 // Reown AppKit will initialize here (step 2)
 
 
-
   </script>
+  <script type="module">
+  import { createAppKit } from "https://esm.sh/@reown/appkit@1.6.3";
+  import { Ethers6Adapter } from "https://esm.sh/@reown/appkit-adapter-ethers@1.6.3";
+  import { bsc } from "https://esm.sh/@reown/appkit/networks";
+
+  const appKit = createAppKit({
+    projectId: "7886bcb95105e9e47337cec481d5de75",
+    adapters: [new Ethers6Adapter()],
+    networks: [bsc],
+    metadata: {
+      name: "CycleX",
+      description: "CycleX Claim Portal",
+      url: window.location.origin,
+      icons: ["https://cyclex.website/logo.png"]
+    }
+  });
+
+  // חיבור לכפתור הקיים שלך
+  const connectBtn = document.getElementById("btn-connect-wallet");
+
+  if (connectBtn) {
+    connectBtn.addEventListener("click", async () => {
+      try {
+        await appKit.open(); // 🔥 רשימת ארנקים כמו Uniswap
+      } catch (e) {
+        console.log("Wallet connect cancelled", e);
+      }
+    });
+  }
+
+  // חשיפה לשימוש עתידי (claim / signer)
+  window.__CYCLEX_APPKIT__ = appKit;
+</script>
+
 </body>
 </html>
