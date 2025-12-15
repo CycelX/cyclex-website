@@ -1815,9 +1815,9 @@
   <script type="module">
   console.log("🟢 [CycleX] Step 2 module loaded");
 
-  import { createAppKit } from "https://cdn.jsdelivr.net/npm/@reown/appkit@1.8.15/+esm";
-  import { EthersAdapter } from "https://cdn.jsdelivr.net/npm/@reown/appkit-adapter-ethers@1.8.15/+esm";
-  import { bsc } from "https://cdn.jsdelivr.net/npm/@reown/appkit@1.8.15/networks/+esm";
+  import { createAppKit } from "https://esm.sh/@reown/appkit@1.8.15";
+  import { EthersAdapter } from "https://esm.sh/@reown/appkit-adapter-ethers@1.8.15";
+  import { bsc } from "https://esm.sh/@reown/appkit/networks";
 
   console.log("🟢 [CycleX] AppKit imports OK");
 
@@ -1851,6 +1851,7 @@
     });
   }
 </script>
+
 
 </body>
 </html>
