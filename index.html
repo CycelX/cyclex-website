@@ -1824,18 +1824,21 @@
   const projectId = "7886bcb95105e9e47337cec481d5de75";
 
   const modal = createAppKit({
-    adapters: [new EthersAdapter()],
-    networks: [bsc],
-    defaultNetwork: bsc,
-    projectId,
-    metadata: {
-      name: "CycleX",
-      description: "CycleX Claim Portal",
-      url: window.location.origin
-    }
-  });
+  adapters: [new EthersAdapter()],
+  networks: [bsc],
+  defaultNetwork: bsc,
+  projectId,
+  metadata: {
+    name: "CycleX",
+    description: "CycleX Claim Portal",
+    url: window.location.origin
+  }
+});
 
-  console.log("🟢 [CycleX] AppKit initialized");
+window.cxAppKitModal = modal;
+console.log("🟢 [CycleX] AppKit modal exposed globally");
+console.log("🟢 [CycleX] AppKit initialized");
+
 
   const btn = document.getElementById("btn-connect-wallet");
 
