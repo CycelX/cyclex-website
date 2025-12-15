@@ -1604,10 +1604,10 @@ not_eligible_text: "Держите CYCX, чтобы участвовать в б
   }
 
   // 2️⃣ fallback ל-MetaMask (אם מישהו פתח את האתר בלי AppKit)
-  if (!providerSource && window.ethereum) {
-    providerSource = window.ethereum;
-    console.log("🟡 [CycleX] Using window.ethereum fallback");
-  }
+  if (!providerSource) {
+  alert("Please select a wallet from the list.");
+  throw new Error("No wallet selected");
+}
 
   if (!providerSource) {
     alert("No Web3 wallet provider found.");
@@ -1916,10 +1916,14 @@ not_eligible_text: "Держите CYCX, чтобы участвовать в б
   networks: [bsc],
   defaultNetwork: bsc,
   projectId,
+
+  analytics: false, // מונע חיבור ל-Pulse (403 / Project not found)
+
   metadata: {
     name: "CycleX",
     description: "CycleX Claim Portal",
-    url: window.location.origin
+    url: window.location.origin,
+    icons: [] // מונע שגיאות SVG מיותרות
   }
 });
 
