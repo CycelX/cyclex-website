@@ -1623,10 +1623,6 @@ not_eligible_text: "Держите CYCX, чтобы участвовать в б
   return true;
 }
 
-
-  return true;
-}
-
       function cxUpdateWalletUI(address) {
   const btn = document.getElementById("btn-connect-wallet");
   if (!btn) return;
@@ -1637,8 +1633,6 @@ not_eligible_text: "Держите CYCX, чтобы участвовать в б
   btn.style.opacity = "0.85";
 }
 
-      
-}
 
     
     function cxEnsureClaimButton() {
@@ -1973,16 +1967,6 @@ window.addEventListener("load", cxAutoReconnect);
     btn.addEventListener("click", async () => {
   console.log("🟡 [CycleX] Opening wallet list");
   await modal.open({ view: "Connect" });
-});
-
-  // חיבור ethers + בדיקת זכאות
-      const connectBtn = document.getElementById("btn-connect-wallet");
-if (connectBtn) {
-  connectBtn.textContent = "Wallet connected";
-  connectBtn.disabled = true;
-  connectBtn.style.opacity = "0.8";
-}
-
 });
 
   }
