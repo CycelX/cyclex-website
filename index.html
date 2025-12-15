@@ -1960,7 +1960,9 @@ window.addEventListener("load", cxAutoReconnect);
     btn.addEventListener("click", async () => {
   console.log("🟡 [CycleX] Connect wallet clicked – opening wallet list");
 
-  await modal.open();
+  await modal.open({
+  view: "Connect"
+});
   console.log("🟢 [CycleX] Wallet selected");
 
   // חיבור ethers + בדיקת זכאות
