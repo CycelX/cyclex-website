@@ -1602,7 +1602,7 @@ not_eligible_text: "Держите CYCX, чтобы участвовать в б
   const providerSource = window.cxAppKitModal.getWalletProvider();
 
   if (!providerSource) {
-    console.log("[CycleX] Wallet not selected yet");
+    console.log("[CycleX] No provider yet – waiting for user");
     return false;
   }
 
@@ -1622,6 +1622,7 @@ not_eligible_text: "Держите CYCX, чтобы участвовать в б
   console.log("🟢 [CycleX] Wallet connected:", cxUserAddress);
   return true;
 }
+
 
 // ✅ זה חייב להיות *מחוץ* לפונקציה
 window.cxEnsureWeb3 = cxEnsureWeb3;
@@ -1966,18 +1967,15 @@ window.addEventListener("load", cxAutoReconnect);
 
     btn.addEventListener("click", async () => {
   console.log("🟡 [CycleX] Opening wallet list");
+
   await modal.open({ view: "Connect" });
 
-  // ⏳ תן לאפליקיט רגע לסגור
-  setTimeout(async () => {
-    if (window.cxAppKitModal?.getWalletProvider()) {
-      console.log("🟢 [CycleX] Wallet selected – connecting");
-      await cxConnectAndCheck();
-    } else {
-      console.log("🟡 [CycleX] No wallet selected");
-    }
-  }, 300);
+  // השהייה קצרה – AppKit צריך זמן
+  await new Promise(r => setTimeout(r, 400));
+
+  await cxConnectAndCheck();
 });
+
 
   }
 </script>
