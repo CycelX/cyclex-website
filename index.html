@@ -1692,8 +1692,6 @@ window.cxEnsureWeb3 = cxEnsureWeb3;
 };
 
 
-
-
     async function cxPerformClaim() {
       if (!cxUserAddress || !cxContract || !cxProofsData) {
         alert("Please connect your wallet first.");
@@ -1928,40 +1926,69 @@ window.cxEnsureWeb3 = cxEnsureWeb3;
     name: "CycleX",
     description: "CycleX Claim Portal",
     url: window.location.origin,
-    icons: []
+    icons: ["https://yourdomain.com/logo.png"]
   }
 });
 
 window.cxAppKitModal = modal;
 console.log("🟢 [CycleX] AppKit modal exposed globally");
 console.log("🟢 [CycleX] AppKit initialized");
+    // 🔔 Listen to wallet connection state
+modal.subscribeState(async (state) => {
+  if (state.status === "connected") {
+    console.log("🟢 [CycleX] Wallet connected – running eligibility check");
+
+    // 1️⃣ לחבר ethers + signer
+    const ready = await window.cxEnsureWeb3();
+    if (!ready) return;
+
+    // 2️⃣ לטעון קבצי Merkle
+    await cxLoadMerkleData();
+
+    // 3️⃣ לבדוק זכאות
+    const alloc = cxGetUserAllocation(cxUserAddress);
+
+    if (!alloc || !alloc.amount) {
+      cxShowNotEligible();
+      cxUpdateWalletUI(cxUserAddress);
+      return;
+    }
+
+    // 4️⃣ להציג זכאות
+    cxShowEligibility({
+      address: cxUserAddress,
+      amount: alloc.amount
+    });
+
+    // 5️⃣ לעדכן UI + כפתור Claim
+    cxUpdateWalletUI(cxUserAddress);
+    cxEnsureClaimButton();
+  }
+});
+
 
 
     // -------- Auto Reconnect --------
-async function cxAutoReconnect() {
-  if (!window.cxAppKitModal?.getWalletProvider) {
-    console.log("🟡 [CycleX] AutoReconnect skipped – AppKit not ready");
-    return;
-  }
-  try {
-    if (window.cxAppKitModal?.getWalletProvider) {
-      const provider = window.cxAppKitModal.getWalletProvider();
-      if (provider) {
-        console.log("🟢 [CycleX] Auto-reconnect: wallet already connected");
+//async function cxAutoReconnect() {
+  //if (!window.cxAppKitModal?.getWalletProvider) {
+    //console.log("🟡 [CycleX] AutoReconnect skipped – AppKit not ready");
+    //return;
+  //}
+  //try {
+    //if (window.cxAppKitModal?.getWalletProvider) {
+      //const provider = window.cxAppKitModal.getWalletProvider();
+     // if (provider) {
+       // console.log("🟢 [CycleX] Auto-reconnect: wallet already connected");
         // לא פותחים modal – רק מחברים ethers
-        if (typeof window.cxEnsureWeb3 === "function") {
-          await window.cxEnsureWeb3();
-        }
-      }
-    }
-  } catch (e) {
-    console.warn("🟡 [CycleX] Auto-reconnect skipped:", e);
-  }
-}
-
-window.addEventListener("load", cxAutoReconnect);
-
-
+        //if (typeof window.cxEnsureWeb3 === "function") {
+          //await window.cxEnsureWeb3();
+        //}
+      //}
+   // }
+ // } catch (e) {
+   // console.warn("🟡 [CycleX] Auto-reconnect skipped:", e);
+  //}
+//}
 
   const btn = document.getElementById("btn-connect-wallet");
 
@@ -1973,14 +2000,10 @@ window.addEventListener("load", cxAutoReconnect);
     btn.addEventListener("click", async () => {
   console.log("🟡 [CycleX] Opening wallet list");
 
-  await modal.open({ view: "Connect" });
-
-  // ⏳ נותנים רגע לארנק להיסגר / להתחבר
-  setTimeout(async () => {
-    console.log("🟢 [CycleX] Running connect & eligibility check");
-    await cxConnectAndCheck();
-  }, 500);
+  // 🔥 פותח תמיד את הרשימה
+  await modal.open({ view: "ConnectWallet" });
 });
+
 
   }
 </script>
