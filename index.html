@@ -2000,25 +2000,6 @@ window.cxAppKitModal = modal;
 console.log("🟢 [CycleX] AppKit modal exposed globally");
 console.log("🟢 [CycleX] AppKit initialized");
     
-// 🔑 AppKit connection listener (MISSING PIECE)
-modal.subscribe(async (state) => {
-  const account =
-  typeof state?.accounts?.[0] === "string"
-    ? { address: state.accounts[0] }
-    : state?.accounts?.[0];
-  if (!account?.address) return;
-
-  // הגנה מריצה כפולה
-  if (window.__cxCheckedAddress === account.address) return;
-  window.__cxCheckedAddress = account.address;
-
-  console.log("🟢 [CycleX] Wallet detected via AppKit:", account.address);
-
-  // כאן מתבצעת בדיקת זכאות אמיתית
-  if (typeof window.handleWalletConnected === "function") {
-    await window.handleWalletConnected(account.address);
-  }
-});
 
 
     // -------- Auto Reconnect --------
@@ -2053,7 +2034,31 @@ modal.subscribe(async (state) => {
    btn.addEventListener("click", async () => {
   console.log("🟡 Opening wallet list");
   await modal.open({ view: "ConnectWallet" });
+
+  let tries = 0;
+  let provider;
+
+  while (tries < 10) {
+    provider = window.cxAppKitModal.getWalletProvider();
+    if (provider) break;
+    await new Promise(r => setTimeout(r, 300));
+    tries++;
+  }
+
+  if (!provider) {
+    console.warn("[CycleX] Provider not found");
+    return;
+  }
+
+  cxProvider = new ethers.BrowserProvider(provider);
+  cxSigner = await cxProvider.getSigner();
+  const address = (await cxSigner.getAddress()).toLowerCase();
+
+  console.log("🟢 [CycleX] Wallet connected:", address);
+
+  await handleWalletConnected(address);
 });
+
 
 
   }
