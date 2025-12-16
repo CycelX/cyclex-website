@@ -427,7 +427,7 @@
 #claim-status {
   display: none;
   text-align: center;
-  margin-top: 2px;
+  margin-top: 16px;
   padding: 14px;
   border-radius: 14px;
   background: rgba(0, 230, 118, 0.12);
@@ -2032,26 +2032,31 @@ console.log("🟢 [CycleX] AppKit initialized");
    btn.addEventListener("click", async () => {
   console.log("🟡 Opening wallet list");
 
-  // פותח את רשימת הארנקים
   await modal.open({ view: "ConnectWallet" });
 
-  // ⏳ מחכה ש-AppKit יספק provider אמיתי
-  const provider = window.cxAppKitModal.getWalletProvider();
+  // ⏳ חכה ל-provider עד 3 שניות
+  let provider = null;
+  for (let i = 0; i < 15; i++) {
+    provider = window.cxAppKitModal.getWalletProvider();
+    if (provider) break;
+    await new Promise(r => setTimeout(r, 200));
+  }
+
   if (!provider) {
-    console.warn("[CycleX] Provider not ready yet");
+    console.error("🔴 Provider never became ready");
     return;
   }
 
   // ethers
   cxProvider = new ethers.BrowserProvider(provider);
   cxSigner = await cxProvider.getSigner();
-  const address = (await cxSigner.getAddress()).toLowerCase();
+  const address = await cxSigner.getAddress();
 
   console.log("🟢 [CycleX] Wallet connected:", address);
 
-  // 🔥 רק כאן בודקים זכאות
   await handleWalletConnected(address);
 });
+
 
 
   }
