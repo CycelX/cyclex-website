@@ -2032,32 +2032,25 @@ console.log("🟢 [CycleX] AppKit initialized");
    btn.addEventListener("click", async () => {
   console.log("🟡 Opening wallet list");
 
+  // פותח את רשימת הארנקים
   await modal.open({ view: "ConnectWallet" });
 
-  let provider;
-  let tries = 0;
-
-  while (tries < 10) {
-    provider = window.cxAppKitModal.getWalletProvider();
-    if (provider) break;
-    await new Promise(r => setTimeout(r, 300));
-    tries++;
-  }
-
+  // ⏳ מחכה ש-AppKit יספק provider אמיתי
+  const provider = window.cxAppKitModal.getWalletProvider();
   if (!provider) {
-    console.warn("[CycleX] Provider not found");
+    console.warn("[CycleX] Provider not ready yet");
     return;
   }
 
+  // ethers
   cxProvider = new ethers.BrowserProvider(provider);
   cxSigner = await cxProvider.getSigner();
   const address = (await cxSigner.getAddress()).toLowerCase();
 
   console.log("🟢 [CycleX] Wallet connected:", address);
 
-  // 🔥 זה הסדר הקריטי
-  closeModal();                 // ⬅️ סוגר את הפופאפ
-  await handleWalletConnected(address); // ⬅️ מציג זכאות
+  // 🔥 רק כאן בודקים זכאות
+  await handleWalletConnected(address);
 });
 
 
