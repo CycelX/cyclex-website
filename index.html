@@ -804,6 +804,83 @@
       .stats-grid {
         grid-template-columns: 1fr;
       }
+      /* ===== Rewards Model – Cards Layout ===== */
+
+.rewards-section {
+  text-align: center;
+}
+
+.rewards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 22px;
+  margin-top: 28px;
+}
+
+.reward-card {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 22px;
+  padding: 24px 22px;
+  text-align: left;
+  backdrop-filter: blur(18px);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.65);
+}
+
+.reward-card h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: var(--accent-cyan);
+}
+
+.reward-card p {
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--text-muted);
+}
+
+.reward-card ul {
+  padding-left: 18px;
+  margin: 8px 0;
+}
+
+.reward-card li {
+  font-size: 14px;
+  line-height: 1.55;
+  margin-bottom: 6px;
+  color: var(--text-muted);
+}
+
+.reward-card strong {
+  color: var(--text-main);
+}
+
+.reward-card.highlight {
+  border-color: rgba(0, 229, 255, 0.45);
+  background: linear-gradient(
+    160deg,
+    rgba(0, 229, 255, 0.12),
+    rgba(255, 255, 255, 0.04)
+  );
+}
+
+.reward-example {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--text-muted);
+}
+
+.reward-policy {
+  margin-top: 24px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--text-muted);
+  text-align: center;
+}
+
     }
   </style>
 </head>
@@ -935,36 +1012,76 @@
       </section>
 
       <!-- 3. Rewards Model -->
-      <section class="section">
-        <div class="section-kicker" data-i18n="rewards_kicker">
-          Rewards Model
-        </div>
-        <h2 class="section-title" data-i18n="rewards_title">Rewards Model</h2>
-        <div class="section-body">
-          <p data-i18n="rewards_p1">
-            • 9% reward every ~90 days, sourced entirely from the CycleX treasury.<br />
-            • First distribution: <strong>31 March 2026</strong> (all policy dates are on-chain and verifiable).
-          </p>
-          <p data-i18n="rewards_p2">
-            • Eligibility: hold for at least <strong>60 days</strong> before the distribution date.<br />
-            • Cycle flow:<br />
-            &nbsp;&nbsp;• 9% to eligible holders<br />
-            &nbsp;&nbsp;• 9% burned from the treasury (1:1)<br />
-            &nbsp;&nbsp;• +20% of the 9% is allocated to the Development &amp; Operations reserve,<br />
-            &nbsp;&nbsp;&nbsp;&nbsp;taken from the treasury — without reducing the holders’ 9% (for every 1 CYCX in
-            rewards, 0.2 CYCX goes to D&amp;O from the treasury).
-          </p>
-          <p data-i18n="rewards_p3">
-            Rewards are claimed directly by users via a secure Merkle-proof system. No admin, no middleman, no manual
-            intervention — holders trigger their own on-chain <code>claim()</code> with their own wallet and pay their
-            own gas.
-          </p>
-          <p style="font-size:12px; margin-top:10px; color:var(--text-muted);" data-i18n="rewards_disclaimer">
-            Policy: the reward cycle is officially ~90 days. The contract enforces an internal minimum of 85 days to
-            provide operational buffer, without changing the economic schedule.
-          </p>
-        </div>
-      </section>
+      <section class="section rewards-section">
+  <div class="section-kicker">REWARDS MODEL</div>
+  <h2 class="section-title">Rewards Model</h2>
+
+  <div class="rewards-grid">
+
+    <!-- Block 1 -->
+    <div class="reward-card">
+      <h3>Cycle Overview</h3>
+      <p>
+        CycleX operates on a quarterly reward cycle.<br>
+        Each cycle is executed automatically according to predefined on-chain rules.
+      </p>
+    </div>
+
+    <!-- Block 2 -->
+    <div class="reward-card highlight">
+      <h3>Distribution Logic</h3>
+      <ul>
+        <li><strong>9%</strong> rewards are distributed to eligible holders.</li>
+        <li><strong>9%</strong> of the treasury is permanently burned (1:1).</li>
+        <li>
+          An additional <strong>20%</strong> of the 9% reward amount is allocated to
+          <strong>Development & Operations</strong> — sourced from the treasury only.
+        </li>
+      </ul>
+      <div class="reward-example">
+        Example:<br>
+        For every <strong>1 CYCX</strong> distributed as rewards,
+        <strong>0.2 CYCX</strong> is allocated to Development & Operations.<br>
+        <strong>Holders always receive their full 9% reward.</strong>
+      </div>
+    </div>
+
+    <!-- Block 3 -->
+    <div class="reward-card">
+      <h3>Eligibility & Claim Rules</h3>
+      <ul>
+        <li>Tokens must be held for at least <strong>60 days</strong> in a self-custody Web3 wallet.</li>
+        <li>Exchange balances do not qualify.</li>
+        <li>
+          Rewards must be claimed every cycle.<br>
+          <strong>Unclaimed rewards do not roll over.</strong>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Block 4 -->
+    <div class="reward-card">
+      <h3>On-Chain Enforcement</h3>
+      <p>
+        Rewards are claimed directly by users via a secure Merkle-proof system.<br>
+        There is <strong>no admin, no middleman, and no manual intervention</strong>.
+      </p>
+      <p>
+        Each holder triggers their own on-chain claim using their own wallet
+        and pays their own gas.
+      </p>
+    </div>
+
+  </div>
+
+  <div class="reward-policy">
+    <strong>Policy:</strong><br>
+    Reward cycles are executed quarterly —
+    <strong>end of March, June, September, and December</strong>,
+    at <strong>20:00 UK time</strong>.
+  </div>
+</section>
+
 
       <!-- Future-Ready Protocol -->
       <section class="section">
