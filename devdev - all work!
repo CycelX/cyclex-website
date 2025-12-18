@@ -1,26 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link rel="icon" href="/logo.png">
   <meta charset="UTF-8" />
   <title>CycleX – AI-Powered Secure Reward Ecosystem</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     :root {
-      --bg-main: #050509;
-      --bg-gradient-start: #050509;
-      --bg-gradient-mid: #140024;
-      --bg-gradient-end: #001321;
-      --text-main: #f5f7ff;
-      --text-muted: #a0a3b5;
-      --accent-cyan: #00e5ff;
-      --accent-green: #00e676;
-      --accent-purple: #6c2aff;
-      --card-bg: rgba(15, 15, 25, 0.92);
-      --border-subtle: rgba(255, 255, 255, 0.06);
-      --shadow-soft: 0 18px 60px rgba(0, 0, 0, 0.7);
-      --radius-xl: 24px;
-      --transition-fast: 0.18s ease-out;
-    }
+  --bg-main: #05060a;
+  --bg-gradient-start: #05060a;
+  --bg-gradient-mid: #1a0d3a;
+  --bg-gradient-end: #003a4c;
+
+  --text-main: #f4f6ff;
+  --text-muted: rgba(244, 246, 255, 0.7);
+
+  --accent-cyan: #00e5ff;
+  --accent-green: #5dffb2;
+  --accent-purple: #7c5cff;
+
+  --card-bg: rgba(255, 255, 255, 0.06);
+  --border-subtle: rgba(255, 255, 255, 0.12);
+
+  --shadow-soft: 0 30px 90px rgba(0, 0, 0, 0.75);
+  --radius-xl: 24px;
+  --transition-fast: 0.18s ease-out;
+}
+
 
     * {
       box-sizing: border-box;
@@ -29,19 +35,26 @@
     }
 
     body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
-        "Segoe UI", sans-serif;
-      background:
-        radial-gradient(circle at top left, #1e093a 0, transparent 45%),
-        radial-gradient(circle at top right, #003a4c 0, transparent 45%),
-        radial-gradient(circle at bottom, #001b3a 0, transparent 55%),
-        linear-gradient(160deg, var(--bg-gradient-start), var(--bg-gradient-mid), var(--bg-gradient-end));
-      color: var(--text-main);
-      min-height: 100vh;
-      -webkit-font-smoothing: antialiased;
-      animation: fadeBody 0.7s ease-out forwards;
-      opacity: 0;
-    }
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+    "Segoe UI", sans-serif;
+
+  background:
+    radial-gradient(circle at top left, rgba(124, 92, 255, 0.35) 0%, transparent 45%),
+    radial-gradient(circle at top right, rgba(0, 229, 255, 0.35) 0%, transparent 45%),
+    radial-gradient(circle at bottom, rgba(0, 58, 76, 0.55) 0%, transparent 55%),
+    linear-gradient(160deg,
+      var(--bg-gradient-start),
+      var(--bg-gradient-mid),
+      var(--bg-gradient-end)
+    );
+
+  color: var(--text-main);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  animation: fadeBody 0.7s ease-out forwards;
+  opacity: 0;
+}
+
 
     @keyframes fadeBody {
       from { opacity: 0; }
@@ -62,11 +75,29 @@
     /* top bar */
 
     .top-bar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 20px;
-    }
+  position: sticky;
+  top: 14px;
+  z-index: 999;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 12px 18px;
+  margin-bottom: 32px;
+
+  border-radius: 999px;
+
+  background: rgba(8, 10, 22, 0.55);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow:
+    0 20px 70px rgba(0, 0, 0, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
 
     .brand {
       display: flex;
@@ -104,15 +135,19 @@
 
     /* language switcher */
     .lang-switch {
-      display: inline-flex;
-      align-items: center;
-      padding: 4px;
-      border-radius: 999px;
-      background: rgba(10, 10, 20, 0.82);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-      gap: 2px;
-    }
+  display: inline-flex;
+  align-items: center;
+  padding: 4px;
+  border-radius: 999px;
+
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(10px);
+
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.55);
+  gap: 2px;
+}
+
 
     .lang-btn {
       border: none;
@@ -181,11 +216,12 @@
     }
 
     .hero-title {
-      font-size: clamp(40px, 5vw, 60px);
-      line-height: 1.1;
-      font-weight: 800;
-      margin-bottom: 16px;
-    }
+  font-size: clamp(40px, 5vw, 60px);
+  line-height: 1.05;
+  font-weight: 800;
+  margin-bottom: 16px;
+  letter-spacing: -0.02em;
+}
 
     .hero-subtitle {
       max-width: 650px;
@@ -255,16 +291,21 @@
     /* sections */
 
     .section {
-      margin-bottom: 40px;
-      padding: 32px 24px;
-      border-radius: var(--radius-xl);
-      border: 1px solid var(--border-subtle);
-      background: rgba(8, 8, 16, 0.78);
-      backdrop-filter: blur(18px);
-      box-shadow: 0 22px 60px rgba(0, 0, 0, 0.7);
-      text-align: center;
-      animation: fadeUp 0.8s ease-out forwards;
-    }
+  margin-bottom: 40px;
+  padding: 36px 28px;
+  border-radius: var(--radius-xl);
+
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(20px);
+
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow:
+    0 28px 80px rgba(0, 0, 0, 0.65),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+
+  text-align: center;
+}
+
 
     .section-kicker {
       font-size: 12px;
@@ -376,24 +417,28 @@
     }
 
     .modal {
-      width: min(420px, 92vw);
-      background: radial-gradient(circle at 0 0, #ffffff12 0, transparent 55%),
-                  radial-gradient(circle at 100% 0, #00e5ff22 0, transparent 50%),
-                  rgba(8, 10, 24, 0.98);
-      border-radius: 24px;
-      padding: 22px 22px 20px;
-      border: 1px solid rgba(255, 255, 255, 0.14);
-      box-shadow: 0 26px 80px rgba(0, 0, 0, 0.9);
-      color: var(--text-main);
-      animation: none !important;
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%) !important;
-      z-index: 999999;
-      max-height: 90vh;
-      overflow-y: auto;
-    }
+  width: min(420px, 92vw);
+
+  background:
+    radial-gradient(circle at top left, rgba(124, 92, 255, 0.25), transparent 55%),
+    radial-gradient(circle at top right, rgba(0, 229, 255, 0.22), transparent 55%),
+    rgba(12, 14, 28, 0.85);
+
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+
+  border-radius: 24px;
+  padding: 22px 22px 20px;
+
+  border: 1px solid rgba(255, 255, 255, 0.18);
+
+  box-shadow:
+    0 30px 90px rgba(0, 0, 0, 0.75),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+
+  color: var(--text-main);
+}
+
 
     .modal-badge {
       font-size: 11px;
@@ -440,6 +485,31 @@
 
   max-width: 100%;
 }
+    /* ===== Claim TX States ===== */
+
+#claim-status.pending {
+  background: rgba(255, 193, 7, 0.12);
+  border: 1px solid rgba(255, 193, 7, 0.45);
+  color: #ffc107;
+}
+
+#claim-status.success {
+  background: rgba(0, 230, 118, 0.12);
+  border: 1px solid rgba(0, 230, 118, 0.45);
+  color: #00e676;
+}
+
+#claim-status.error {
+  background: rgba(220, 53, 69, 0.12);
+  border: 1px solid rgba(220, 53, 69, 0.45);
+  color: #dc3545;
+}
+
+#cx-claim-now-btn[disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 
 
     .modal-actions {
@@ -544,16 +614,28 @@
     }
 
     .calculator-content {
-      width: min(380px, 92vw);
-      background: radial-gradient(circle at 0 0, #ffffff10 0, transparent 55%),
-                  radial-gradient(circle at 100% 0, #00e5ff22 0, transparent 45%),
-                  rgba(8, 10, 24, 0.98);
-      border-radius: 20px;
-      padding: 20px 20px 18px;
-      border: 1px solid rgba(255, 255, 255, 0.16);
-      box-shadow: 0 26px 80px rgba(0, 0, 0, 0.9);
-      color: var(--text-main);
-    }
+  width: min(380px, 92vw);
+
+  background:
+    radial-gradient(circle at top left, rgba(124, 92, 255, 0.25), transparent 55%),
+    radial-gradient(circle at top right, rgba(0, 229, 255, 0.22), transparent 55%),
+    rgba(12, 14, 28, 0.85);
+
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+
+  border-radius: 24px;
+  padding: 22px;
+
+  border: 1px solid rgba(255, 255, 255, 0.18);
+
+  box-shadow:
+    0 30px 90px rgba(0, 0, 0, 0.75),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+
+  color: var(--text-main);
+}
+
 
     .calculator-content h2 {
       font-size: 20px;
@@ -668,18 +750,33 @@
       color: var(--text-main);
     }
 
-    .calc-disclaimer {
-  margin-top: 18px;
-  font-size: 14px;       
-  line-height: 1.55;
+   .calc-disclaimer {
+  margin-top: 10px;            /* ⬅️ היה 14 */
+  font-size: 14px;
+  line-height: 1.6;
   color: var(--text-muted);
   text-align: left;
+  max-width: 92%;
 }
 
 .calc-disclaimer strong {
-  color: #ffcc80;        
-  font-size: 18px;       
+  display: block;
+
+  margin-top: 2px;             /* ⬅️ מינימום */
+  margin-bottom: 2px;
+
+  transform: translateY(-6px); /* ⬅️ מרים למעלה בפועל */
+
+  font-size: 18px;
+  line-height: 1.25;
+
+  color: #ffcc80;
+  letter-spacing: 0.02em;
+
+  font-family: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-weight: 600;
 }
+
 
 
     @media (max-width: 768px) {
@@ -719,7 +816,7 @@
         <div class="brand-text">
           <div class="brand-title">CYCLEX</div>
           <div class="brand-sub" data-i18n="brand_sub">
-            AI-Powered Reward & Security
+            On-Chain Security & Rewards
           </div>
         </div>
       </div>
@@ -739,15 +836,14 @@
     <main>
       <section class="hero">
         <div class="hero-kicker" data-i18n="hero_kicker">
-          AI-DRIVEN SECURITY & QUARTERLY REWARDS ENGINEERED FOR LONG-TERM HOLDERS
+          Engineering secure on-chain systems for long-term participation
         </div>
         <h1 class="hero-title" data-i18n="hero_title">
-          A secure, quarterly reward ecosystem powered by AI-enhanced blockchain protection.
+          A secure quarterly reward ecosystem powered by AI-enhanced blockchain protection.
         </h1>
         <p class="hero-subtitle" data-i18n="hero_subtitle">
-          CycleX builds next-generation blockchain security infrastructure using AI-driven analysis to safeguard digital
-          assets, reward long-term holders, and ensure that the treasury remains fully controlled by transparent
-          on-chain logic — never by individuals.
+          CycleX uses AI-driven analysis to safeguard digital assets, 
+          reward long-term holders, and lock treasury control directly into transparent on-chain smart contracts.
         </p>
 
         <div class="hero-actions">
@@ -781,8 +877,7 @@
           On-Chain Transparency
         </h2>
         <p class="section-body" data-i18n="transparency_p1">
-          All core flows — rewards, burns, and treasury movements — are executed directly by the smart contract.
-          Below are global counters that will sync automatically with the blockchain once the contract is deployed.
+          All core flows — rewards, burns, and treasury movements — are executed directly by the smart contract. The counters below reflect live, verifiable on-chain data.
         </p>
 
         <div class="stats-grid">
@@ -816,10 +911,10 @@
       <!-- 2. Vision & AI Security -->
       <section class="section">
         <div class="section-kicker" data-i18n="vision_kicker">
-          Vision &amp; AI Security
+          Vision &amp; Architecture
         </div>
         <h2 class="section-title" style="font-size: 38px;" data-i18n="vision_title">
-          Vision &amp; AI-Powered Protection
+          Vision & On-Chain Security Architecture
         </h2>
         <div class="section-body">
           <p data-i18n="vision_p1">
@@ -1030,12 +1125,12 @@
     // -------- TRANSLATIONS --------
     const translations = {
       en: {
-        brand_sub: "AI-Powered Reward & Security",
-        hero_kicker: "AI-DRIVEN SECURITY & QUARTERLY REWARDS ENGINEERED FOR LONG-TERM HOLDERS",
+        brand_sub: "On-Chain Security & Rewards",
+        hero_kicker: "Engineering secure on-chain systems for long-term participation",
         hero_title:
-          "A secure, quarterly reward ecosystem powered by AI-enhanced blockchain protection.",
+          "A secure quarterly reward ecosystem powered by AI-enhanced blockchain protection.",
         hero_subtitle:
-          "CycleX builds next-generation blockchain security infrastructure using AI-driven analysis to safeguard digital assets, reward long-term holders, and ensure that the treasury remains fully controlled by transparent on-chain logic — never by individuals.",
+          "CycleX uses AI-driven analysis to safeguard digital assets, reward long-term holders, and lock treasury control directly into transparent on-chain smart contracts.",
         btn_claim: "Claim rewards",
         btn_presale: "Pre-Sale (PinkSale)",
         hero_note:
@@ -1043,7 +1138,7 @@
         transparency_kicker: "Transparency",
         transparency_title: "On-Chain Transparency",
         transparency_p1:
-          "All core flows — rewards, burns, and treasury movements — are executed directly by the smart contract. Below are global counters that will sync automatically with the blockchain once the contract is deployed.",
+          "All core flows — rewards, burns, and treasury movements — are executed directly by the smart contract. The counters below reflect live, verifiable on-chain data.",
         stat_rewards_label: "Total rewards distributed",
         stat_burn_label: "Total tokens burned",
         stat_onchain_tag: "Live on-chain metric",
@@ -1051,14 +1146,12 @@
         stat_last_cycle_label: "Last distribution",
         stat_last_cycle_caption: "Updates after the first reward cycle is executed.",
         stat_next_cycle_label: "Next scheduled distribution",
-        vision_kicker: "Vision & AI Security",
-        vision_title: "Vision & AI-Powered Protection",
-        vision_p1:
-          "CycleX is built on a simple but powerful principle: let code, math, and cryptography enforce the rules — not human promises.",
-        vision_p2:
-          "Our ecosystem is engineered to be transparent, reward-based, and resistant to exploitation. Rewards are earned by holders who stay committed long term, while the protocol continuously burns tokens to reinforce scarcity and long-term value.",
-        vision_p3:
-          "Treasury funds are permanently locked inside the smart contract. The developer cannot withdraw, redirect, or override the treasury. Only reward distributions, burns, and Development & Operations allocations are permitted by code.",
+        vision_kicker: "Vision & Architecture",
+        vision_title: "Vision & On-Chain Security Architecture",
+        vision_p1: "CycleX was created with a clear mission: to build secure, transparent on-chain systems that protect digital assets over the long term, without relying on discretionary control or human trust.",
+vision_p2: "The protocol is designed around deterministic, on-chain execution. Core rules are enforced directly by smart-contract logic and cryptographic verification, ensuring that critical operations follow predefined code paths at all times.",
+vision_p3: "CycleX is built to be transparent, reward-driven, and resistant to manipulation. Rewards are allocated to long-term holders, while scheduled token burns reduce supply and support sustainable economic balance.",
+vision_p4: "Treasury assets are permanently controlled by the smart contract itself. There are no administrative withdrawals, overrides, or discretionary actions. Only predefined operations — reward distribution, token burns, and Development & Operations allocations — can be executed by code.",
         rewards_kicker: "Rewards Model",
         rewards_title: "Rewards Model",
         rewards_p1:
@@ -1147,19 +1240,18 @@ eligible_amount: "Allocation",
           "By continuing, you confirm that you understand how eligibility is calculated and agree to review these rules before making investment decisions."
       },
       zh: {
-        brand_sub: "AI 驱动的奖励与安全",
-        hero_kicker: "AI 安全与季度奖励，专为长期持有者打造",
+        brand_sub: "链上安全与奖励机制",
+        hero_kicker: "构建安全的链上系统，支持长期参与",
         hero_title: "由增强型人工智能区块链保护驱动的安全季度奖励生态系统。",
         hero_subtitle:
-          "CycleX 构建下一代基于 AI 分析的区块链安全基础设施，用于保护数字资产、奖励长期持有者，并确保金库始终由透明的链上逻辑控制，而不是由个人控制。",
+          "CycleX 利用 AI 驱动的分析来保护数字资产，奖励长期持有者，并将金库控制权直接锁定在透明的链上智能合约中。",
         btn_claim: "领取奖励",
         btn_presale: "预售（PinkSale）",
         hero_note:
           "首个分红周期：<span>2026 年 3 月 31 日</span>。资格：至少在周期日期前 60 天开始持有代币。",
         transparency_kicker: "透明性",
         transparency_title: "链上透明",
-        transparency_p1:
-          "所有核心流程——奖励、销毁与金库移动——均由智能合约直接执行。下方为全局计数器，部署后将自动与区块链同步。",
+        transparency_p1: "所有核心流程——奖励、销毁以及金库资金流动——均由智能合约直接执行。下方计数器反映的是实时、可验证的链上数据。",
         stat_rewards_label: "累计发放奖励总量",
         stat_burn_label: "累计销毁代币总量",
         stat_onchain_tag: "链上实时数据",
@@ -1167,14 +1259,12 @@ eligible_amount: "Allocation",
         stat_last_cycle_label: "上一次分发",
         stat_last_cycle_caption: "首个奖励周期执行后将自动更新。",
         stat_next_cycle_label: "下一次计划分发",
-        vision_kicker: "愿景与 AI 安全",
-        vision_title: "愿景与 AI 驱动的保护",
-        vision_p1:
-          "CycleX 基于一个简单却强大的原则构建：让代码、数学与密码学来执行规则，而不是依赖人为承诺。",
-        vision_p2:
-          "我们的生态被设计为透明、以奖励为驱动并且难以被利用。奖励属于那些真正长期持有的用户，而协议会持续销毁代币以强化稀缺性和长期价值。",
-        vision_p3:
-          "金库资金被永久锁定在智能合约中。开发者无法提取、转移或覆盖金库。只有奖励分发、销毁以及开发与运营（D&O）分配可以按照代码执行。",
+        vision_kicker: "愿景与架构",
+        vision_title: "愿景与链上安全架构",
+       vision_p1: "CycleX 以明确的使命而创建：构建安全、透明的链上系统，在长期内保护数字资产，而不依赖人为信任或自由裁量控制。",
+vision_p2: "该协议围绕确定性的链上执行进行设计。核心规则直接由智能合约逻辑和加密验证强制执行，确保关键操作始终遵循预定义的代码路径。",
+vision_p3: "CycleX 被构建为透明、以奖励为导向且具备抗操纵能力的系统。奖励分配给长期持有者，而定期的代币销毁机制减少供应量并支持可持续的经济平衡。",
+vision_p4: "金库资产永久由智能合约本身控制。不存在管理提取、覆盖或自由裁量行为。只有预定义的操作——奖励分配、代币销毁以及开发与运营分配——才能由代码执行。",
         rewards_kicker: "奖励模型",
         rewards_title: "奖励模型",
         rewards_p1:
@@ -1262,20 +1352,19 @@ eligible_amount: "奖励额度",
           "继续操作即表示你理解并接受上述资格规则，并会在做出投资决策前再次审阅这些说明。"
       },
       ar: {
-        brand_sub: "نظام مكافآت وأمان مدعوم بالذكاء الاصطناعي",
-        hero_kicker: "أمان مدعوم بالذكاء الاصطناعي ومكافآت ربع سنوية مُصمَّمة لحاملي المدى الطويل",
+        brand_sub: "أمن ومكافآت على السلسلة",
+        hero_kicker: "هندسة أنظمة آمنة على السلسلة للمشاركة طويلة الأمد",
         hero_title:
           "منظومة مكافآت ربع سنوية آمنة مدعومة بحماية بلوكتشين معززة بالذكاء الاصطناعي.",
         hero_subtitle:
-          "تقوم CycleX ببناء بنية تحتية من الجيل التالي لأمان البلوكتشين باستخدام تحليل مدفوع بالذكاء الاصطناعي لحماية الأصول الرقمية، مكافأة حاملي المدى الطويل، وضمان أن الخزينة تبقى تحت سيطرة منطق شفاف على السلسلة – وليس تحت سيطرة الأفراد.",
+          "يستخدم CycleX تحليلاً مدعوماً بالذكاء الاصطناعي لحماية الأصول الرقمية، ومكافأة حاملي المدى الطويل، وقفل التحكم بالخزينة مباشرة داخل عقود ذكية شفافة على السلسلة.",
         btn_claim: "استعلام عن المكافآت",
         btn_presale: "الطرح المسبق (PinkSale)",
         hero_note:
           "أول دورة مكافآت: <span>31 مارس 2026</span>. الأهلية: يجب البدء في الاحتفاظ قبل موعد الدورة بـ 60 يومًا على الأقل.",
         transparency_kicker: "الشفافية",
         transparency_title: "شفافية على السلسلة",
-        transparency_p1:
-          "جميع التدفقات الأساسية – المكافآت، الحرق، وتحركات الخزينة – تُنفَّذ مباشرة بواسطة العقد الذكي. ستتم مزامنة العدادات العالمية أدناه تلقائيًا مع البلوكتشين بعد النشر。",
+        transparency_p1: "يتم تنفيذ جميع التدفقات الأساسية — المكافآت، الحرق، وحركات الخزينة — مباشرة بواسطة العقد الذكي. العدادات أدناه تعكس بيانات حية وقابلة للتحقق على السلسلة.",
         stat_rewards_label: "إجمالي المكافآت الموزعة",
         stat_burn_label: "إجمالي الرموز المحروقة",
         stat_onchain_tag: "مؤشر حي على السلسلة",
@@ -1283,15 +1372,12 @@ eligible_amount: "奖励额度",
         stat_last_cycle_label: "آخر توزيع",
         stat_last_cycle_caption: "سيتم التحديث بعد تنفيذ أول دورة مكافآت。",
         stat_next_cycle_label: "موعد التوزيع القادم",
-        vision_kicker: "الرؤية وأمان الذكاء الاصطناعي",
-        vision_title: "الرؤية وحماية مدفوعة بالذكاء الاصطناعي",
-        vision_p1:
-          "تستند CycleX إلى مبدأ بسيط وقوي في الوقت نفسه: دع الكود والرياضيات والتشفير يفرضون القواعد – وليس الوعود البشرية。",
-        vision_p2:
-          "تمت هندسة منظومتنا لتكون شفافة، قائمة على المكافآت، ومقاومة للاستغلال。 تُكتسب المكافآت من قبل الحاملين الذين يلتزمون على المدى الطويل، بينما يستمر البروتوكول في حرق الرموز لتعزيز الندرة والقيمة طويلة الأجل。",
-        vision_p3:
-          "أموال الخزينة مقفلة بشكل دائم داخل العقد الذكي。 لا يستطيع المطوّر سحبها أو إعادة توجيهها أو تجاوزها。 يُسمح فقط بتوزيعات المكافآت، الحرق، وتخصيصات التطوير والتشغيل (D&O) وفقًا للكود。",
-        rewards_kicker: "نموذج المكافآت",
+        vision_kicker: "الرؤية والبنية المعمارية",
+        vision_title: "الرؤية وبنية الأمان على السلسلة",
+       vision_p1: "تم إنشاء CycleX برؤية واضحة: بناء أنظمة آمنة وشفافة على السلسلة لحماية الأصول الرقمية على المدى الطويل، دون الاعتماد على التحكم التقديري أو الثقة البشرية.",
+vision_p2: "تم تصميم البروتوكول حول تنفيذ حتمي على السلسلة. يتم فرض القواعد الأساسية مباشرة من خلال منطق العقود الذكية والتحقق التشفيري، مما يضمن أن العمليات الحرجة تتبع مسارات برمجية محددة مسبقاً في جميع الأوقات.",
+vision_p3: "تم بناء CycleX ليكون شفافاً، قائماً على المكافآت، ومقاوماً للتلاعب. يتم تخصيص المكافآت لحاملي المدى الطويل، بينما تقلل عمليات حرق التوكنات المجدولة من المعروض وتدعم توازناً اقتصادياً مستداماً.",
+vision_p4: "تخضع أصول الخزينة لسيطرة دائمة من قبل العقد الذكي نفسه. لا توجد عمليات سحب إدارية أو تجاوزات أو صلاحيات تقديرية. لا يمكن تنفيذ سوى العمليات المحددة مسبقاً — توزيع المكافآت، حرق التوكنات، وتخصيصات التطوير والتشغيل — عبر الكود.",
         rewards_title: "نموذج المكافآت",
         rewards_p1:
           "• مكافأة 9٪ كل ~90 يومًا، ممولة بالكامل من خزينة CycleX。<br />• أول توزيع: <strong>31 مارس 2026</strong> (جميع تواريخ السياسة يمكن التحقق منها على السلسلة)。",
@@ -1380,20 +1466,19 @@ eligible_amount: "قيمة المكافأة",
           "بمتابعتك، فإنك تقر بأنك تفهم كيفية حساب الأهلية وتوافق على مراجعة هذه القواعد قبل اتخاذ أي قرارات استثمارية."
       },
       ru: {
-        brand_sub: "Вознаграждения и безопасность на базе ИИ",
-        hero_kicker: "Безопасность на базе ИИ и квартальные награды, созданные для долгосрочных холдеров",
+        brand_sub: "Ончейн-безопасность и вознаграждения",
+        hero_kicker: "Проектирование безопасных ончейн-систем для долгосрочного участия",
         hero_title:
           "Безопасная экосистема квартальных вознаграждений, работающая на базе усиленной ИИ блокчейн-защиты。",
         hero_subtitle:
-          "CycleX создает инфраструктуру блокчейн-безопасности нового поколения, используя анализ на базе ИИ, чтобы защищать цифровые активы, поощрять долгосрочных держателей и гарантировать, что казна всегда управляется прозрачной логикой смарт-контракта — а не людьми。",
+          "CycleX использует анализ на базе ИИ для защиты цифровых активов, вознаграждения долгосрочных держателей и блокировки контроля казны напрямую в прозрачных ончейн смарт-контрактах.",
         btn_claim: "Получить награды",
         btn_presale: "Pre-Sale (PinkSale)",
         hero_note:
           "Первая наградная циклическая выплата: <span>31 марта 2026</span>。 Право на участие: держать токены не менее 60 дней до даты цикла。",
         transparency_kicker: "Прозрачность",
         transparency_title: "Прозрачность на блокчейне",
-        transparency_p1:
-          "Все ключевые потоки — награды, сжигания и перемещение средств казны — выполняются напрямую смарт-контрактом。 Ниже будут отображаться глобальные счетчики, которые автоматически синхронизируются с блокчейном после деплоя контракта。",
+       transparency_p1: "Все ключевые процессы — вознаграждения, сжигания и движения казны — выполняются напрямую смарт-контрактом. Счётчики ниже отображают актуальные и проверяемые ончейн-данные.",
         stat_rewards_label: "Всего распределено наград",
         stat_burn_label: "Всего токенов сожжено",
         stat_onchain_tag: "Ончейн-метрика в реальном времени",
@@ -1402,14 +1487,12 @@ eligible_amount: "قيمة المكافأة",
         stat_last_cycle_caption:
           "Обновится после выполнения первого наградного цикла。",
         stat_next_cycle_label: "Следующее запланированное распределение",
-        vision_kicker: "Видение и ИИ-безопасность",
-        vision_title: "Видение и защита на базе ИИ",
-        vision_p1:
-          "CycleX основан на простом, но мощном принципе: правила должны обеспечиваться кодом, математикой и криптографией, а не человеческими обещаниями。",
-        vision_p2:
-          "Наша экосистема спроектирована так, чтобы быть прозрачной, основанной на вознаграждениях и устойчивой к злоупотреблениям。 Награды получают держатели, которые остаются с проектом надолго, в то время как протокол постоянно сжигает токены, укрепляя дефицит и долгосрочную ценность。",
-        vision_p3:
-          "Средства казны навсегда заблокированы внутри смарт-контракта。 Разработчик не может их вывести, перенаправить или обойти правила。 Код разрешает только распределение наград, сжигание и выделения на разработки и операционную деятельность (D&O)。",
+        vision_kicker: "Видение и архитектура",
+        vision_title: "Видение и архитектура ончейн-безопасности",
+        vision_p1: "CycleX был создан с чёткой миссией: построить безопасные и прозрачные ончейн-системы для долгосрочной защиты цифровых активов без опоры на дискреционный контроль или человеческое доверие.",
+vision_p2: "Протокол спроектирован вокруг детерминированного ончейн-исполнения. Ключевые правила реализуются напрямую через логику смарт-контрактов и криптографическую верификацию, гарантируя, что критические операции всегда следуют заранее определённым кодовым путям.",
+vision_p3: "CycleX построен как прозрачная, ориентированная на вознаграждение и устойчивая к манипуляциям система. Вознаграждения распределяются среди долгосрочных держателей, а запланированные сжигания токенов сокращают предложение и поддерживают устойчивый экономический баланс.",
+vision_p4: "Активы казны постоянно контролируются самим смарт-контрактом. Административные выводы, переопределения или дискреционные действия отсутствуют. Только заранее определённые операции — распределение вознаграждений, сжигание токенов и аллокации на разработку и операционную деятельность — могут выполняться кодом.",
         rewards_kicker: "Модель наград",
         rewards_title: "Модель наград",
         rewards_p1:
@@ -1714,8 +1797,7 @@ window.cxEnsureWeb3 = cxEnsureWeb3;
 }
 
 
-    
-    function cxEnsureClaimButton() {
+     function cxEnsureClaimButton() {
       const modal = document.querySelector("#claim-modal-backdrop .modal");
       if (!modal) return;
 
@@ -1730,6 +1812,42 @@ window.cxEnsureWeb3 = cxEnsureWeb3;
         modal.appendChild(btn);
       }
     }
+
+    function cxShowAlreadyClaimed() {
+  const box = document.getElementById("claim-status");
+  const claimBtn = document.getElementById("cx-claim-now-btn");
+
+  if (box) {
+    box.style.display = "block";
+    box.style.background = "rgba(180,180,180,0.12)";
+    box.style.border = "1px solid rgba(180,180,180,0.35)";
+    box.style.color = "#d0d0d0";
+    box.innerHTML = "<strong>✅ Already claimed for this cycle</strong>";
+  }
+
+  if (claimBtn) {
+    claimBtn.style.display = "none";
+  }
+}
+    function cxSetClaimUI(state, message) {
+  const box = document.getElementById("claim-status");
+  const btn = document.getElementById("cx-claim-now-btn");
+
+  if (!box) return;
+
+  box.className = "";            // ניקוי מצבים קודמים
+  box.id = "claim-status";       // שמירה על ה-ID
+  box.style.display = "block";
+
+  if (state) box.classList.add(state);
+  box.innerHTML = message || "";
+
+  if (btn) {
+    btn.disabled = (state === "pending");
+  }
+}
+
+
 
   // window.cxConnectAndCheck = async function () {
   //try {
@@ -1760,43 +1878,60 @@ window.cxEnsureWeb3 = cxEnsureWeb3;
 
 
     async function cxPerformClaim() {
-      if (!cxUserAddress || !cxContract || !cxProofsData) {
-        alert("Please connect your wallet first.");
-        return;
-      }
+  if (!cxUserAddress || !cxContract || !cxProofsData) {
+    alert("Please connect your wallet first.");
+    return;
+  }
 
-      const addr = cxUserAddress;
-      const alloc = cxGetUserAllocation(addr);
-      if (!alloc) {
-        alert("No allocation found for this wallet in the current cycle.");
-        return;
-      }
+  const addr = cxUserAddress;
+  const alloc = cxGetUserAllocation(addr);
+  if (!alloc) {
+    cxSetClaimUI("error", "❌ No allocation found for this wallet.");
+    return;
+  }
 
-      try {
-        const already = await cxContract.hasClaimed(CX_CURRENT_CYCLE_ID, addr);
-        if (already) {
-          alert("You have already claimed for this cycle.");
-          return;
-        }
-      } catch (e) {
-        console.warn("hasClaimed check failed (non-fatal):", e);
-      }
-
-      try {
-        const tx = await cxContract.claim(
-          CX_CURRENT_CYCLE_ID,
-          addr,
-          alloc.amount,
-          alloc.proof
-        );
-        alert("Transaction sent:\n" + tx.hash);
-        await tx.wait();
-        alert("Claim successful! ✅");
-      } catch (err) {
-        console.error("Claim failed:", err);
-        alert("Claim failed: " + (err?.message || "Unknown error"));
-      }
+  try {
+    const already = await cxContract.hasClaimed(CX_CURRENT_CYCLE_ID, addr);
+    if (already) {
+      cxShowAlreadyClaimed(); // 👈 שימוש בפונקציה הקיימת שלך
+      return;
     }
+  } catch (e) {
+    console.warn("hasClaimed check failed (non-fatal):", e);
+  }
+
+  try {
+    // 🔹 Pending
+    cxSetClaimUI(
+      "pending",
+      "<strong>⏳ Transaction pending…</strong><br>Please confirm in your wallet."
+    );
+
+    const tx = await cxContract.claim(
+      CX_CURRENT_CYCLE_ID,
+      addr,
+      alloc.amount,
+      alloc.proof
+    );
+
+    await tx.wait();
+
+    // 🔹 Success
+    cxSetClaimUI(
+      "success",
+      "<strong>✅ Claim successful!</strong><br>Your rewards were claimed on-chain."
+    );
+
+  } catch (err) {
+    console.error("Claim failed:", err);
+
+    cxSetClaimUI(
+      "error",
+      "❌ Transaction failed or was rejected."
+    );
+  }
+}
+
 
     const claimBtn = document.getElementById("btn-claim");
     const modalBackdrop = document.getElementById("claim-modal-backdrop");
