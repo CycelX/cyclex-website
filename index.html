@@ -1076,94 +1076,120 @@
         </div>
       </section>
 
-      <!-- 3. Rewards Model -->
-      <section class="section rewards-section">
-  <div class="section-kicker">REWARDS MODEL</div>
-  <h2 class="section-title">Rewards Model</h2>
-        <p class="rewards-intro">
-  CycleX operates on a quarterly reward cycle.
-  Each cycle is executed automatically according to predefined on-chain rules.
-</p>
 
+      <!-- 3. Rewards Model -->
+<section class="section rewards-section">
+
+  <div class="section-kicker" data-i18n="rewards_kicker">
+    REWARDS MODEL
+  </div>
+
+  <h2 class="section-title" data-i18n="rewards_title">
+    Rewards Model
+  </h2>
+
+  <p class="rewards-intro" data-i18n="rewards_intro">
+    CycleX operates on a quarterly reward cycle.
+    Each cycle is executed automatically according to predefined on-chain rules.
+  </p>
 
   <div class="rewards-grid">
 
-  <!-- MAIN CARD (LEFT) -->
-  <div class="reward-card highlight">
-    <h3>Distribution Logic</h3>
-    <ul>
-      <li><strong>9%</strong> rewards are distributed to eligible holders.</li>
-      <li>For every reward cycle, the treasury burns an amount <strong>equal to the 9% distributed rewards</strong> (1:1).</li>
-      <li>
-        An additional <strong>20%</strong> of the 9% reward amount is allocated to
-        <strong>Development &amp; Operations</strong> — sourced from the treasury only.
-      </li>
-    </ul>
+    <!-- MAIN CARD (LEFT) -->
+    <div class="reward-card highlight">
+      <h3 data-i18n="rewards_dist_title">Distribution Logic</h3>
 
-    <div class="reward-example">
-      Example:<br>
-      For every <strong>1 CYCX</strong> distributed as rewards,
-      <strong>0.2 CYCX</strong> is allocated to Development &amp; Operations.<br>
-      <strong>Holders always receive their full 9% reward.</strong>
-    </div>
-    <div class="reward-footer">
-  Fully automated • On-chain enforced • Publicly verifiable
-</div>
-    <div class="hero-actions">
-  <button class="btn btn-primary" type="button"
-  onclick="document.getElementById('btn-claim').click()"
-  data-i18n="btn_claim">
-  Claim rewards
-</button>
-  <button class="btn btn-secondary" type="button"
-  onclick="document.getElementById('presale-link').click()"
-  data-i18n="btn_presale">
-  Pre-Sale (PinkSale)
-</button>
-  </a>
-</div>
-
-
-  </div>
-
-  <!-- SIDE COLUMN (RIGHT) -->
-  <div class="rewards-side">
-
-    <!-- Block 3 -->
-    <div class="reward-card">
-      <h3>Eligibility &amp; Claim Rules</h3>
       <ul>
-        <li>Tokens must be held for at least <strong>60 days</strong> in a self-custody Web3 wallet.</li>
-        <li>Exchange balances do not qualify.</li>
-        <li>
-          Rewards must be claimed every cycle.<br>
-          <strong>Unclaimed rewards do not roll over.</strong>
+        <li data-i18n="rewards_dist_li1">
+          <strong>9%</strong> rewards are distributed to eligible holders.
+        </li>
+
+        <li data-i18n="rewards_dist_li2">
+          For every reward cycle, the treasury burns an amount
+          <strong>equal to the 9% distributed rewards</strong> (1:1).
+        </li>
+
+        <li data-i18n="rewards_dist_li3">
+          An additional <strong>20%</strong> of the 9% reward amount is allocated to
+          <strong>Development &amp; Operations</strong> — sourced from the treasury only.
         </li>
       </ul>
+
+      <div class="reward-example" data-i18n="rewards_example">
+        Example:<br>
+        For every <strong>1 CYCX</strong> distributed as rewards,
+        <strong>0.2 CYCX</strong> is allocated to Development &amp; Operations.<br>
+        <strong>Holders always receive their full 9% reward.</strong>
+      </div>
+
+      <div class="reward-footer" data-i18n="rewards_footer">
+        Fully automated • On-chain enforced • Publicly verifiable
+      </div>
+
+      <div class="hero-actions">
+        <button class="btn btn-primary" type="button"
+          onclick="document.getElementById('btn-claim').click()"
+          data-i18n="btn_claim">
+          Claim rewards
+        </button>
+
+        <button class="btn btn-secondary" type="button"
+          onclick="document.getElementById('presale-link').click()"
+          data-i18n="btn_presale">
+          Pre-Sale (PinkSale)
+        </button>
+      </div>
     </div>
 
-    <!-- Block 4 -->
-    <div class="reward-card enforcement">
-      <h3>On-Chain Enforcement</h3>
-      <p>
-        Rewards are claimed directly by users via a secure Merkle-proof system.
-        There is <strong>no admin, no middleman, and no manual intervention</strong>.
-      </p>
-      <p>
-        Each holder triggers their own on-chain claim using their own wallet and pays their own gas.
-      </p>
-    </div>
+    <!-- SIDE COLUMN (RIGHT) -->
+    <div class="rewards-side">
 
+      <!-- Eligibility -->
+      <div class="reward-card">
+        <h3 data-i18n="rewards_rules_title">
+          Eligibility &amp; Claim Rules
+        </h3>
+
+        <ul>
+          <li data-i18n="rewards_rules_li1">
+            Tokens must be held for at least <strong>60 days</strong> in a self-custody Web3 wallet.
+          </li>
+          <li data-i18n="rewards_rules_li2">
+            Exchange balances do not qualify.
+          </li>
+          <li data-i18n="rewards_rules_li3">
+            Rewards must be claimed every cycle.<br>
+            <strong>Unclaimed rewards do not roll over.</strong>
+          </li>
+        </ul>
+      </div>
+
+      <!-- On-chain enforcement -->
+      <div class="reward-card enforcement">
+        <h3 data-i18n="rewards_chain_title">
+          On-Chain Enforcement
+        </h3>
+
+        <p data-i18n="rewards_chain_p1">
+          Rewards are claimed directly by users via a secure Merkle-proof system.
+          There is <strong>no admin, no middleman, and no manual intervention</strong>.
+        </p>
+
+        <p data-i18n="rewards_chain_p2">
+          Each holder triggers their own on-chain claim using their own wallet and pays their own gas.
+        </p>
+      </div>
+
+    </div>
   </div>
-</div>
 
-
-  <div class="reward-policy">
+  <div class="reward-policy" data-i18n="rewards_policy">
     <strong>Policy:</strong><br>
     Reward cycles are executed quarterly —
     <strong>end of March, June, September, and December</strong>,
     at <strong>20:00 UK time</strong>.
   </div>
+
 </section>
 
 
@@ -1350,19 +1376,47 @@
         vision_kicker: "Vision & Architecture",
         vision_title: "Vision & On-Chain Security Architecture",
         vision_p1: "CycleX was created with a clear mission: to build secure, transparent on-chain systems that protect digital assets over the long term, without relying on discretionary control or human trust.",
-vision_p2: "The protocol is designed around deterministic, on-chain execution. Core rules are enforced directly by smart-contract logic and cryptographic verification, ensuring that critical operations follow predefined code paths at all times.",
-vision_p3: "CycleX is built to be transparent, reward-driven, and resistant to manipulation. Rewards are allocated to long-term holders, while scheduled token burns reduce supply and support sustainable economic balance.",
-vision_p4: "Treasury assets are permanently controlled by the smart contract itself. There are no administrative withdrawals, overrides, or discretionary actions. Only predefined operations — reward distribution, token burns, and Development & Operations allocations — can be executed by code.",
-        rewards_kicker: "Rewards Model",
-        rewards_title: "Rewards Model",
-        rewards_p1:
-          "• 9% reward every ~90 days, sourced entirely from the CycleX treasury.<br />• First distribution: <strong>31 March 2026</strong> (all policy dates are on-chain and verifiable).",
-        rewards_p2:
-          "• Eligibility: hold for at least <strong>60 days</strong> before the distribution date.<br />• Cycle flow:<br />&nbsp;&nbsp;• 9% to eligible holders<br />&nbsp;&nbsp;• 9% burned from the treasury (1:1)<br />&nbsp;&nbsp;• +20% of the 9% is allocated to the Development &amp; Operations reserve, taken from the treasury — without reducing the holders’ 9% (for every 1 CYCX in rewards, 0.2 CYCX goes to D&amp;O from the treasury).",
-        rewards_p3:
-          "Rewards are claimed directly by users via a secure Merkle-proof system. No admin, no middleman, no manual intervention — holders trigger their own on-chain claim with their own wallet and pay their own gas.",
-        rewards_disclaimer:
-          "Policy: the reward cycle is officially ~90 days. The contract enforces an internal minimum of 85 days to provide operational buffer, without changing the economic schedule.",
+        vision_p2: "The protocol is designed around deterministic, on-chain execution. Core rules are enforced directly by smart-contract logic and cryptographic verification, ensuring that critical operations follow predefined code paths at all times.",
+        vision_p3: "CycleX is built to be transparent, reward-driven, and resistant to manipulation. Rewards are allocated to long-term holders, while scheduled token burns reduce supply and support sustainable economic balance.",
+        vision_p4: "Treasury assets are permanently controlled by the smart contract itself. There are no administrative withdrawals, overrides, or discretionary actions. Only predefined operations — reward distribution, token burns, and Development & Operations allocations — can be executed by code.",
+        
+      /* ===== Rewards Model (NEW) ===== */
+      rewards_kicker: "REWARDS MODEL",
+      rewards_title: "Rewards Model",
+      rewards_intro:
+        "CycleX operates on a quarterly reward cycle. Each cycle is executed automatically according to predefined on-chain rules.",
+
+      rewards_dist_title: "Distribution Logic",
+      rewards_dist_li1:
+        "<strong>9%</strong> rewards are distributed to eligible holders.",
+      rewards_dist_li2:
+        "For every reward cycle, the treasury burns an amount <strong>equal to the 9% distributed rewards</strong> (1:1).",
+      rewards_dist_li3:
+        "An additional <strong>20%</strong> of the 9% reward amount is allocated to <strong>Development &amp; Operations</strong> — sourced from the treasury only.",
+
+      rewards_example:
+        "Example:<br>For every <strong>1 CYCX</strong> distributed as rewards, <strong>0.2 CYCX</strong> is allocated to Development &amp; Operations.<br><strong>Holders always receive their full 9% reward.</strong>",
+
+      rewards_footer:
+        "Fully automated • On-chain enforced • Publicly verifiable",
+
+      rewards_rules_title: "Eligibility & Claim Rules",
+      rewards_rules_li1:
+        "Tokens must be held for at least <strong>60 days</strong> in a self-custody Web3 wallet.",
+      rewards_rules_li2:
+        "Exchange balances do not qualify.",
+      rewards_rules_li3:
+        "Rewards must be claimed every cycle.<br><strong>Unclaimed rewards do not roll over.</strong>",
+
+      rewards_chain_title: "On-Chain Enforcement",
+      rewards_chain_p1:
+        "Rewards are claimed directly by users via a secure Merkle-proof system. There is <strong>no admin, no middleman, and no manual intervention</strong>.",
+      rewards_chain_p2:
+        "Each holder triggers their own on-chain claim using their own wallet and pays their own gas.",
+
+      rewards_policy:
+        "<strong>Policy:</strong><br>Reward cycles are executed quarterly — <strong>end of March, June, September, and December</strong>, at <strong>20:00 UK time</strong>.",
+  
         future_kicker: "Future-Ready Protocol",
         future_title: "Future-Ready Protocol",
         future_p1:
@@ -1463,19 +1517,44 @@ eligible_amount: "Allocation",
         vision_kicker: "愿景与架构",
         vision_title: "愿景与链上安全架构",
        vision_p1: "CycleX 以明确的使命而创建：构建安全、透明的链上系统，在长期内保护数字资产，而不依赖人为信任或自由裁量控制。",
-vision_p2: "该协议围绕确定性的链上执行进行设计。核心规则直接由智能合约逻辑和加密验证强制执行，确保关键操作始终遵循预定义的代码路径。",
-vision_p3: "CycleX 被构建为透明、以奖励为导向且具备抗操纵能力的系统。奖励分配给长期持有者，而定期的代币销毁机制减少供应量并支持可持续的经济平衡。",
-vision_p4: "金库资产永久由智能合约本身控制。不存在管理提取、覆盖或自由裁量行为。只有预定义的操作——奖励分配、代币销毁以及开发与运营分配——才能由代码执行。",
+       vision_p2: "该协议围绕确定性的链上执行进行设计。核心规则直接由智能合约逻辑和加密验证强制执行，确保关键操作始终遵循预定义的代码路径。",
+       vision_p3: "CycleX 被构建为透明、以奖励为导向且具备抗操纵能力的系统。奖励分配给长期持有者，而定期的代币销毁机制减少供应量并支持可持续的经济平衡。",
+       vision_p4: "金库资产永久由智能合约本身控制。不存在管理提取、覆盖或自由裁量行为。只有预定义的操作——奖励分配、代币销毁以及开发与运营分配——才能由代码执行。",
         rewards_kicker: "奖励模型",
-        rewards_title: "奖励模型",
-        rewards_p1:
-          "• 每约 90 天发放一次 9% 奖励，全部来自 CycleX 金库。<br />• 首次分发时间：<strong>2026 年 3 月 31 日</strong>（所有规则日期均可在链上验证）。",
-        rewards_p2:
-          "• 资格：在分发日前至少连续持有 <strong>60 天</strong>。<br />• 每个周期的资金流：<br />&nbsp;&nbsp;• 9% 发放给符合条件的持有者<br />&nbsp;&nbsp;• 9% 从金库 1:1 销毁<br />&nbsp;&nbsp;• 其中 9% 的 <strong>20%</strong> 作为开发与运营（D&O）储备，从金库中划出，但<strong>不会减少</strong>持有者应得的 9%（每 1 枚奖励代币，将有 0.2 枚从金库进入 D&O）。",
-        rewards_p3:
-          "持有者通过安全的 Merkle 证明系统在官网自行领取奖励。无管理员、无中间人、无人工干预——用户用自己的钱包在链上执行 claim()，并自行支付 Gas。",
-        rewards_disclaimer:
-          "政策：官方奖励周期约为 90 天。合约内部使用 85 天的最小间隔，为运营预留缓冲区，同时不改变整体经济节奏。",
+      rewards_title: "奖励模型",
+      rewards_intro:
+        "CycleX 采用季度奖励周期。每个周期均按照预定义的链上规则自动执行。",
+
+      rewards_dist_title: "分配逻辑",
+      rewards_dist_li1:
+        "<strong>9%</strong> 的奖励将分配给符合条件的持有者。",
+      rewards_dist_li2:
+        "在每个奖励周期中，金库将销毁<strong>等同于已分配 9% 奖励数量</strong>的代币（1:1）。",
+      rewards_dist_li3:
+        "额外从 9% 奖励中划拨 <strong>20%</strong> 用于<strong>开发与运营</strong>，资金仅来源于金库。",
+
+      rewards_example:
+        "示例：<br>每分配 <strong>1 CYCX</strong> 奖励，<strong>0.2 CYCX</strong> 将分配至开发与运营。<br><strong>持有者始终获得完整的 9% 奖励。</strong>",
+
+      rewards_footer:
+        "完全自动化 • 链上强制执行 • 公开可验证",
+
+      rewards_rules_title: "资格与领取规则",
+      rewards_rules_li1:
+        "代币必须在自托管 Web3 钱包中持有至少 <strong>60 天</strong>。",
+      rewards_rules_li2:
+        "交易所账户余额不符合资格。",
+      rewards_rules_li3:
+        "每个周期都必须领取奖励。<br><strong>未领取的奖励不会累积。</strong>",
+
+      rewards_chain_title: "链上执行",
+      rewards_chain_p1:
+        "用户通过安全的 Merkle 证明系统直接领取奖励。<strong>无管理员、无中介、无人工干预</strong>。",
+      rewards_chain_p2:
+        "每位持有者使用自己的钱包发起链上领取并自行支付 Gas。",
+
+      rewards_policy:
+        "<strong>政策：</strong><br>奖励周期按季度执行 — <strong>3 月、6 月、9 月和 12 月末</strong>，时间为 <strong>英国时间 20:00</strong>。",
         future_kicker: "面向未来的协议",
         future_title: "面向未来的协议",
         future_p1:
@@ -1576,18 +1655,44 @@ eligible_amount: "奖励额度",
         vision_kicker: "الرؤية والبنية المعمارية",
         vision_title: "الرؤية وبنية الأمان على السلسلة",
        vision_p1: "تم إنشاء CycleX برؤية واضحة: بناء أنظمة آمنة وشفافة على السلسلة لحماية الأصول الرقمية على المدى الطويل، دون الاعتماد على التحكم التقديري أو الثقة البشرية.",
-vision_p2: "تم تصميم البروتوكول حول تنفيذ حتمي على السلسلة. يتم فرض القواعد الأساسية مباشرة من خلال منطق العقود الذكية والتحقق التشفيري، مما يضمن أن العمليات الحرجة تتبع مسارات برمجية محددة مسبقاً في جميع الأوقات.",
-vision_p3: "تم بناء CycleX ليكون شفافاً، قائماً على المكافآت، ومقاوماً للتلاعب. يتم تخصيص المكافآت لحاملي المدى الطويل، بينما تقلل عمليات حرق التوكنات المجدولة من المعروض وتدعم توازناً اقتصادياً مستداماً.",
-vision_p4: "تخضع أصول الخزينة لسيطرة دائمة من قبل العقد الذكي نفسه. لا توجد عمليات سحب إدارية أو تجاوزات أو صلاحيات تقديرية. لا يمكن تنفيذ سوى العمليات المحددة مسبقاً — توزيع المكافآت، حرق التوكنات، وتخصيصات التطوير والتشغيل — عبر الكود.",
-        rewards_title: "نموذج المكافآت",
-        rewards_p1:
-          "• مكافأة 9٪ كل ~90 يومًا، ممولة بالكامل من خزينة CycleX。<br />• أول توزيع: <strong>31 مارس 2026</strong> (جميع تواريخ السياسة يمكن التحقق منها على السلسلة)。",
-        rewards_p2:
-          "• الأهلية: يجب الاحتفاظ بالرموز لمدة <strong>60 يومًا</strong> على الأقل قبل تاريخ التوزيع。<br />• تدفّق كل دورة:<br />&nbsp;&nbsp;• 9٪ تذهب إلى الحامليــن المؤهلين<br />&nbsp;&nbsp;• 9٪ تُحرق من الخزينة بنسبة 1:1<br />&nbsp;&nbsp;• يُخصَّص <strong>20٪ من نسبة 9٪</strong> لاحتياطي التطوير والتشغيل (D&O)، من الخزينة – دون أن يقلِّل من نسبة 9٪ الخاصة بالحامليـن (مقابل كل 1 رمز مكافأة، يذهب 0.2 رمز إلى D&O من الخزينة)。",
-        rewards_p3:
-          "يُجري المستخدمون عملية المطالبة بمكافآتهم مباشرة عبر نظام Merkle-proof آمن。 لا يوجد مسؤول، ولا وسيط، ولا تدخل يدوي – يقوم الحاملوْن بتنفيذ استدعاء claim() على السلسلة باستخدام محافظهم الخاصة ودفع رسوم الغاز بأنفسهم。",
-        rewards_disclaimer:
-          "السياسة: الدورة الرسمية للمكافآت تقارب 90 يومًا。 يفرض العقد داخليًا حدًا أدنى قدره 85 يومًا لتوفير هامش تشغيلي، دون تغيير الجدول الاقتصادي。",
+       vision_p2: "تم تصميم البروتوكول حول تنفيذ حتمي على السلسلة. يتم فرض القواعد الأساسية مباشرة من خلال منطق العقود الذكية والتحقق التشفيري، مما يضمن أن العمليات الحرجة تتبع مسارات برمجية محددة مسبقاً في جميع الأوقات.",
+       vision_p3: "تم بناء CycleX ليكون شفافاً، قائماً على المكافآت، ومقاوماً للتلاعب. يتم تخصيص المكافآت لحاملي المدى الطويل، بينما تقلل عمليات حرق التوكنات المجدولة من المعروض وتدعم توازناً اقتصادياً مستداماً.",
+       vision_p4: "تخضع أصول الخزينة لسيطرة دائمة من قبل العقد الذكي نفسه. لا توجد عمليات سحب إدارية أو تجاوزات أو صلاحيات تقديرية. لا يمكن تنفيذ سوى العمليات المحددة مسبقاً — توزيع المكافآت، حرق التوكنات، وتخصيصات التطوير والتشغيل — عبر الكود.",
+        rewards_kicker: "نموذج المكافآت",
+      rewards_title: "نموذج المكافآت",
+      rewards_intro:
+        "يعمل CycleX وفق دورة مكافآت ربع سنوية، ويتم تنفيذ كل دورة تلقائيًا وفق قواعد محددة على السلسلة.",
+
+      rewards_dist_title: "منطق التوزيع",
+      rewards_dist_li1:
+        "يتم توزيع <strong>9٪</strong> من المكافآت على الحاملين المؤهلين.",
+      rewards_dist_li2:
+        "في كل دورة مكافآت، تقوم الخزينة بحرق كمية <strong>تعادل نسبة 9٪ الموزعة</strong> (1:1).",
+      rewards_dist_li3:
+        "يتم تخصيص <strong>20٪</strong> إضافية من نسبة 9٪ للتطوير والتشغيل <strong>(Development & Operations)</strong> من الخزينة فقط.",
+
+      rewards_example:
+        "مثال:<br>مقابل كل <strong>1 CYCX</strong> يتم توزيعه كمكافأة، يتم تخصيص <strong>0.2 CYCX</strong> للتطوير والتشغيل.<br><strong>يحصل الحاملون دائمًا على كامل نسبة 9٪.</strong>",
+
+      rewards_footer:
+        "تنفيذ آلي بالكامل • مفروض على السلسلة • قابل للتحقق علنًا",
+
+      rewards_rules_title: "شروط الأهلية وقواعد المطالبة",
+      rewards_rules_li1:
+        "يجب الاحتفاظ بالرموز لمدة <strong>60 يومًا</strong> على الأقل في محفظة Web3 ذاتية الحفظ.",
+      rewards_rules_li2:
+        "الأرصدة الموجودة في البورصات غير مؤهلة.",
+      rewards_rules_li3:
+        "يجب المطالبة بالمكافآت في كل دورة.<br><strong>المكافآت غير المطالب بها لا تنتقل.</strong>",
+
+      rewards_chain_title: "التنفيذ على السلسلة",
+      rewards_chain_p1:
+        "يتم المطالبة بالمكافآت مباشرة عبر نظام Merkle-proof آمن. <strong>لا يوجد مسؤول ولا وسيط ولا تدخل يدوي</strong>.",
+      rewards_chain_p2:
+        "كل حامل يطلق عملية المطالبة بنفسه من محفظته ويدفع رسوم الغاز الخاصة به.",
+
+      rewards_policy:
+        "<strong>السياسة:</strong><br>تُنفذ دورات المكافآت ربع سنويًا — <strong>نهاية مارس ويونيو وسبتمبر وديسمبر</strong>، في <strong>الساعة 20:00 بتوقيت المملكة المتحدة</strong>.",
         future_kicker: "بروتوكول جاهز للمستقبل",
         future_title: "بروتوكول جاهز للمستقبل",
         future_p1:
@@ -1691,19 +1796,44 @@ eligible_amount: "قيمة المكافأة",
         vision_kicker: "Видение и архитектура",
         vision_title: "Видение и архитектура ончейн-безопасности",
         vision_p1: "CycleX был создан с чёткой миссией: построить безопасные и прозрачные ончейн-системы для долгосрочной защиты цифровых активов без опоры на дискреционный контроль или человеческое доверие.",
-vision_p2: "Протокол спроектирован вокруг детерминированного ончейн-исполнения. Ключевые правила реализуются напрямую через логику смарт-контрактов и криптографическую верификацию, гарантируя, что критические операции всегда следуют заранее определённым кодовым путям.",
-vision_p3: "CycleX построен как прозрачная, ориентированная на вознаграждение и устойчивая к манипуляциям система. Вознаграждения распределяются среди долгосрочных держателей, а запланированные сжигания токенов сокращают предложение и поддерживают устойчивый экономический баланс.",
-vision_p4: "Активы казны постоянно контролируются самим смарт-контрактом. Административные выводы, переопределения или дискреционные действия отсутствуют. Только заранее определённые операции — распределение вознаграждений, сжигание токенов и аллокации на разработку и операционную деятельность — могут выполняться кодом.",
+        vision_p2: "Протокол спроектирован вокруг детерминированного ончейн-исполнения. Ключевые правила реализуются напрямую через логику смарт-контрактов и криптографическую верификацию, гарантируя, что критические операции всегда следуют заранее определённым кодовым путям.",
+        vision_p3: "CycleX построен как прозрачная, ориентированная на вознаграждение и устойчивая к манипуляциям система. Вознаграждения распределяются среди долгосрочных держателей, а запланированные сжигания токенов сокращают предложение и поддерживают устойчивый экономический баланс.",
+        vision_p4: "Активы казны постоянно контролируются самим смарт-контрактом. Административные выводы, переопределения или дискреционные действия отсутствуют. Только заранее определённые операции — распределение вознаграждений, сжигание токенов и аллокации на разработку и операционную деятельность — могут выполняться кодом.",
         rewards_kicker: "Модель наград",
-        rewards_title: "Модель наград",
-        rewards_p1:
-          "• 9% награды примерно каждые 90 дней, полностью за счет казны CycleX。<br />• Первое распределение: <strong>31 марта 2026</strong> (все даты политики можно проверить на блокчейне)。",
-        rewards_p2:
-          "• Право на участие: держать токены не менее <strong>60 дней</strong> до даты распределения。<br />• Потоки внутри цикла:<br />&nbsp;&nbsp;• 9% — квалифицированным держателям<br />&nbsp;&nbsp;• 9% сжигается из казны (1:1)<br />&nbsp;&nbsp;• +20% от этих 9% направляется в резерв Development &amp; Operations и берётся из казны — <strong>без</strong> уменьшения награды держателей (за каждый 1 CYCX награды 0.2 CYCX уходит в D&amp;O из казны)。",
-        rewards_p3:
-          "Награды пользователи получают самостоятельно через защищенную систему на базе Merkle-доказательств。 Без администратора, без посредников и ручных вмешательств — держатели запускают свой on-chain вызов claim() из собственного кошелька и сами оплачивают газ。",
-        rewards_disclaimer:
-          "Политика: официальный цикл наград ~90 дней。 В контракте зашит внутренний минимум в 85 дней, чтобы оставить операционный буфер без изменения экономического расписания。",
+      rewards_title: "Модель наград",
+      rewards_intro:
+        "CycleX работает по квартальному циклу вознаграждений. Каждый цикл выполняется автоматически в соответствии с предопределёнными ончейн-правилами.",
+
+      rewards_dist_title: "Логика распределения",
+      rewards_dist_li1:
+        "<strong>9%</strong> наград распределяются между квалифицированными держателями.",
+      rewards_dist_li2:
+        "В каждом цикле казна сжигает количество токенов, <strong>равное распределённым 9%</strong> (1:1).",
+      rewards_dist_li3:
+        "Дополнительно <strong>20%</strong> от 9% направляется на <strong>разработку и операционную деятельность</strong> исключительно из казны.",
+
+      rewards_example:
+        "Пример:<br>За каждый <strong>1 CYCX</strong>, распределённый как награда, <strong>0.2 CYCX</strong> направляется на разработку и операции.<br><strong>Держатели всегда получают полный бонус 9%.</strong>",
+
+      rewards_footer:
+        "Полностью автоматизировано • Ончейн-исполнение • Публичная проверяемость",
+
+      rewards_rules_title: "Условия участия и получения",
+      rewards_rules_li1:
+        "Токены должны храниться не менее <strong>60 дней</strong> в самостоятельном Web3-кошельке.",
+      rewards_rules_li2:
+        "Баланс на биржах не учитывается.",
+      rewards_rules_li3:
+        "Получение требуется в каждом цикле.<br><strong>Невостребованные награды не переносятся.</strong>",
+
+      rewards_chain_title: "Ончейн-исполнение",
+      rewards_chain_p1:
+        "Награды получаются пользователями напрямую через безопасную систему Merkle-proof. <strong>Без администратора, посредников и ручных действий</strong>.",
+      rewards_chain_p2:
+        "Каждый держатель самостоятельно инициирует on-chain claim со своего кошелька и оплачивает газ.",
+
+      rewards_policy:
+        "<strong>Политика:</strong><br>Циклы вознаграждений выполняются ежеквартально — <strong>в конце марта, июня, сентября и декабря</strong>, в <strong>20:00 по времени Великобритании</strong>.",
         future_kicker: "Протокол, готовый к будущему",
         future_title: "Протокол, готовый к будущему",
         future_p1:
