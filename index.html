@@ -2053,9 +2053,9 @@ calc_note:
     const CX_CONTRACT_ADDRESS = "0xda63b65825AE30532a507B0C091B0bD9F8204F7E";
     const CX_CURRENT_CYCLE_ID = 1; // כשתתחיל Cycle אמיתי - תעדכן פה
     const CX_CYCLES_BASE = `/cycles/${CX_CURRENT_CYCLE_ID}`;
-    const CX_REWARDS_URL = `${CX_CYCLES_BASE}/rewards.json`;
-    const CX_PROOFS_DIR  = `${CX_CYCLES_BASE}/proofs`;   // פה יהיו shards
-    const CX_SHARD_HEX_LEN = 3; // 3 תווים אחרי 0x => 4096 shards
+    const CX_REWARDS_URL = `${CX_CYCLES_BASE}/rewards.json?v=${CX_CURRENT_CYCLE_ID}`;
+    const CX_PROOFS_DIR  = `${CX_CYCLES_BASE}/proofs`;
+    const CX_SHARD_HEX_LEN = 3; // חייב להתאים למה שהסקריפט מרקל ייצר
 
 
 
@@ -2064,7 +2064,6 @@ calc_note:
     let cxContract = null;
     let cxUserAddress = null;
     let cxRewardsData = null;
-    let cxProofsData = null;
 
    async function cxLoadMerkleData() {
   // ב-sharded אין proofs.json אחד גדול
@@ -2161,7 +2160,7 @@ box.innerHTML = `
   box.style.display = "block";
 }
 async function handleWalletConnected(address) {
-  if (!cxProofsData) await cxLoadMerkleData();
+  await cxLoadMerkleData(); 
   try {
     console.log("🟢 [CycleX] Checking eligibility for", address);
 
@@ -2174,17 +2173,14 @@ async function handleWalletConnected(address) {
       return;
     }
 
-    cxShowEligibility({
-      address,
-      amount: alloc.amount
-    });
-
+    cxShowEligibility({ address, amount: alloc.amount });
     cxEnsureClaimButton();
 
   } catch (err) {
     console.error("Eligibility check failed:", err);
   }
 }
+
 
 
     async function cxEnsureWeb3() {
@@ -2319,7 +2315,7 @@ window.cxEnsureWeb3 = cxEnsureWeb3;
 
 
     async function cxPerformClaim() {
-  if (!cxUserAddress || !cxContract || !cxProofsData) {
+  if (!cxUserAddress || !cxContract) {
     alert("Please connect your wallet first.");
     return;
   }
@@ -2650,6 +2646,12 @@ console.log("🟢 [CycleX] AppKit initialized");
   const address = await signer.getAddress();
 
   console.log("🟢 [CycleX] Wallet connected:", address);
+     // ✅ זה עושה: cxProvider/cxSigner/cxUserAddress/cxContract
+const ok = await window.cxEnsureWeb3?.();
+if (!ok) {
+  if (box) box.innerHTML = "<strong>⚠️ Web3 init failed. Try again.</strong>";
+  return;
+}
 
   await handleWalletConnected(address); // פה אמור להציג מיד eligible / not eligible
 });
