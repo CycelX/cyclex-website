@@ -2345,8 +2345,9 @@ function cxSetClaimUI(state, message) {
       return;
     }
 
-    const addr = cxUserAddress;
+    const addr = cxUserAddress.toLowerCase();
     const alloc = await cxGetUserAllocation(addr);
+
 
     if (!alloc) {
       cxSetClaimUI("error", "❌ No allocation found for this wallet.");
