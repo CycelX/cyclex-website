@@ -2055,7 +2055,7 @@ calc_note:
     const CX_CYCLES_BASE = `/cycles/${CX_CURRENT_CYCLE_ID}`;
     const CX_REWARDS_URL = `${CX_CYCLES_BASE}/rewards.json?v=${CX_CURRENT_CYCLE_ID}`;
     const CX_PROOFS_DIR  = `${CX_CYCLES_BASE}/proofs`;
-    const CX_SHARD_HEX_LEN = 3; // חייב להתאים למה שהסקריפט מרקל ייצר
+    const CX_SHARD_HEX_LEN = 2; // חייב להתאים למה שהסקריפט מרקל ייצר
 
 
 
@@ -2081,7 +2081,7 @@ calc_note:
     async function cxFetchProofEntry(addrLower) {
   // addrLower חייב להיות lowercase
   const prefix = addrLower.slice(2, 2 + CX_SHARD_HEX_LEN); // בלי 0x
-  const url = `${CX_PROOFS_DIR}/${prefix}.json`;
+  const url = `${CX_PROOFS_DIR}/${prefix}.json?v=${CX_CURRENT_CYCLE_ID}`;
 
   try {
     const r = await fetch(url, { cache: "no-store" });
