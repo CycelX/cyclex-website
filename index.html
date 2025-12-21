@@ -2049,14 +2049,16 @@ calc_note:
     setLanguage("en");
 
     // -------- CLAIM MODAL --------
-    // -------- CYCLEX MERKLE CLAIM SYSTEM (FRONTEND) --------
-    const CX_CONTRACT_ADDRESS = "0xda63b65825AE30532a507B0C091B0bD9F8204F7E";
-    const CX_CURRENT_CYCLE_ID = 1; // כשתתחיל Cycle אמיתי - תעדכן פה
-    const CX_CYCLES_BASE = `/cycles/${CX_CURRENT_CYCLE_ID}`;
-    const CX_REWARDS_URL = `${CX_CYCLES_BASE}/rewards.json?v=${CX_CURRENT_CYCLE_ID}`;
-    const CX_PROOFS_DIR  = `${CX_CYCLES_BASE}/proofs`;
-    const CX_SHARD_HEX_LEN = 2; // חייב להתאים למה שהסקריפט מרקל ייצר
+    // ===== TESTNET CONFIG (TEMP) =====
+const CX_CONTRACT_ADDRESS = "PUT_TESTNET_CONTRACT_ADDRESS_HERE"; // כתובת החוזה בטסטנט!
+const CX_CHAIN_ID = 97; // BSC Testnet
+const CX_CURRENT_CYCLE_ID = 1;
 
+const CX_CYCLES_BASE = `/cycles-testnet/${CX_CURRENT_CYCLE_ID}`;
+const CX_REWARDS_URL = `${CX_CYCLES_BASE}/rewards.json?v=${CX_CURRENT_CYCLE_ID}`;
+const CX_PROOFS_DIR  = `${CX_CYCLES_BASE}/proofs`;
+const CX_SHARD_HEX_LEN = 2;
+// ================================
 
 
     let cxProvider = null;
@@ -2202,6 +2204,13 @@ async function handleWalletConnected(address) {
 }
 
   cxProvider = new ethers.BrowserProvider(providerSource);
+      // ✅ Ensure correct network (Testnet)
+const net = await cxProvider.getNetwork();
+if (Number(net.chainId) !== CX_CHAIN_ID) {
+  cxSetClaimUI("error", `❌ Wrong network. Switch to BSC Testnet (chainId ${CX_CHAIN_ID}).`);
+  return false;
+}
+
   cxSigner = await cxProvider.getSigner();
   cxUserAddress = (await cxSigner.getAddress()).toLowerCase();
 
@@ -2553,7 +2562,7 @@ window.cxEnsureWeb3 = cxEnsureWeb3;
 
   import { createAppKit } from "https://esm.sh/@reown/appkit@1.8.15";
   import { EthersAdapter } from "https://esm.sh/@reown/appkit-adapter-ethers@1.8.15";
-  import { bsc } from "https://esm.sh/@reown/appkit/networks";
+  import { bscTestnet } from "https://esm.sh/@reown/appkit/networks";
 
     async function waitForWalletProvider(timeoutMs = 90000) {
   const start = Date.now();
@@ -2571,8 +2580,8 @@ window.cxEnsureWeb3 = cxEnsureWeb3;
 
   const modal = createAppKit({
   adapters: [new EthersAdapter()],
-  networks: [bsc],
-  defaultNetwork: bsc,
+  networks: [bscTestnet],
+defaultNetwork: bscTestnet,
   projectId,
   analytics: false,
   metadata: {
