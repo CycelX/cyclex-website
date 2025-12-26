@@ -1013,17 +1013,19 @@
 
   .stats-grid { grid-template-columns: 1fr; }
 
-  /* ✅ מוסתר רק במובייל כשמודאל פתוח */
   body.modal-open .top-bar {
     display: none !important;
   }
 
   .modal-backdrop.active,
-  .calculator-modal.active {
-    align-items: flex-start !important;
-    padding-top: calc(env(safe-area-inset-top, 0px) + 12px);
-    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 12px);
-  }
+.calculator-modal.active {
+  align-items: center !important;
+  justify-content: center !important;
+  padding-top: calc(env(safe-area-inset-top, 0px) + 12px);
+  padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 12px);
+  padding-left: 12px;
+  padding-right: 12px;
+}
 
   .modal,
   .calculator-content {
