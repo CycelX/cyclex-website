@@ -2151,7 +2151,7 @@ function cxUpdateModalState() {
   document.body.style.overflow = anyOpen ? "hidden" : "";
 }
 
-    
+    window.addEventListener("resize", cxUpdateModalState);
 
     // -------- CLAIM MODAL --------
     // -------- CYCLEX MERKLE CLAIM SYSTEM (FRONTEND) --------
