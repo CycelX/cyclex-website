@@ -365,18 +365,18 @@
     }
 
    .stat-label {
-    font-size: 14px;        /* היה 13px */
-    font-weight: 800;       /* בולט */
-    color: var(--text-main);/* יותר לבן */
-    margin-bottom: 8px;     /* נותן מקום למספר */
+    font-size: 14px;        
+    font-weight: 800;      
+    color: var(--text-main);
+    margin-bottom: 8px;    
     letter-spacing: 0.01em;
     }
 
     .stat-value {
   font-size: 20px;
   font-weight: 700;
-  margin-bottom: 0px;     /* נצמיד את ה-tag למטה, לא למספר */
-  line-height: 1.08;      /* המספר יושב יפה */
+  margin-bottom: 0px;    
+  line-height: 1.08;     
 }
 
    .stat-tag {
@@ -386,7 +386,7 @@
   letter-spacing: 0.16em;
   color: var(--accent-cyan);
 
-  margin-top: 10px;       /* ⬅️ זה מוריד את "LIVE ON-CHAIN METRIC" למטה */
+  margin-top: 10px;      
 }
 
     .stat-caption {
@@ -454,7 +454,7 @@
   align-items: center;
   justify-content: center;
 
-  z-index: 5000; /* ✅ מעל ה-top-bar */
+  z-index: 5000; 
   backdrop-filter: blur(8px);
 }
 
@@ -520,7 +520,7 @@
     /* Claim status box (eligibility result) */
 #claim-status {
   display: none;
-  margin: 12px auto 16px auto; /* 🔑 זה הסידור */
+  margin: 12px auto 16px auto; 
   padding: 14px 16px;
   border-radius: 14px;
 
@@ -655,7 +655,7 @@
   background: rgba(0, 0, 0, 0.72);
   backdrop-filter: blur(10px);
 
-  z-index: 6000; /* ✅ מעל כולם */
+  z-index: 6000; 
 }
 
     .calculator-modal.active {
@@ -800,7 +800,7 @@
     }
 
    .calc-disclaimer {
-  margin-top: 10px;            /* ⬅️ היה 14 */
+  margin-top: 10px;          
   font-size: 14px;
   line-height: 1.6;
   color: var(--text-muted);
@@ -811,10 +811,10 @@
 .calc-disclaimer strong {
   display: block;
 
-  margin-top: 2px;             /* ⬅️ מינימום */
+  margin-top: 2px;            
   margin-bottom: 2px;
 
-  transform: translateY(-6px); /* ⬅️ מרים למעלה בפועל */
+  transform: translateY(-6px); 
 
   font-size: 18px;
   line-height: 1.25;
@@ -980,7 +980,6 @@
 
   .stats-grid { grid-template-columns: 1fr; }
 
-  /* ✅ מוסתר רק במובייל כשמודאל פתוח */
   body.modal-open .top-bar {
     display: none !important;
   }
@@ -2142,7 +2141,6 @@ calc_note:
       btn.addEventListener("click", () => {
         const lang = btn.getAttribute("data-lang");
         setLanguage(lang);
-        // אחרי שינוי שפה – נפתח שוב את פופאפ ה-Eligibility
         if (typeof showEligibilityForLangSwitch === "function") {
           showEligibilityForLangSwitch();
         }
@@ -2167,7 +2165,7 @@ function cxUpdateModalState() {
     // -------- CLAIM MODAL --------
     // -------- CYCLEX MERKLE CLAIM SYSTEM (FRONTEND) --------
     const CX_CONTRACT_ADDRESS = "0xda63b65825AE30532a507B0C091B0bD9F8204F7E";
-    const CX_CURRENT_CYCLE_ID = 0; // כשתתחיל Cycle אמיתי - תעדכן פה
+    const CX_CURRENT_CYCLE_ID = 0; 
     const CX_R2_BASE = "https://cycles.cyclex.network";
     const CX_CYCLES_BASE = `${CX_R2_BASE}/cycles/${CX_CURRENT_CYCLE_ID}`;
     const CX_REWARDS_URL = `${CX_CYCLES_BASE}/rewards.json?v=${CX_CURRENT_CYCLE_ID}`;
@@ -2184,7 +2182,6 @@ function cxUpdateModalState() {
     let cxRewardsData = null;
 
    async function cxLoadMerkleData() {
-  // ב-sharded אין proofs.json אחד גדול
   try {
     if (!cxRewardsData) {
       const r = await fetch(CX_REWARDS_URL, { cache: "no-store" });
@@ -2196,18 +2193,14 @@ function cxUpdateModalState() {
   }
 }
 
-    
     async function cxFetchProofEntry(addrLower) {
-  const prefix = addrLower.slice(2, 2 + CX_SHARD_HEX_LEN); // בלי 0x
+  const prefix = addrLower.slice(2, 2 + CX_SHARD_HEX_LEN); 
   const url = `${CX_PROOFS_DIR}/${prefix}.json?v=${CX_CURRENT_CYCLE_ID}`;
 
   try {
     const r = await fetch(url, { cache: "no-store" });
-
-    // 404/410 = אין shard כזה => פשוט "לא זכאי", בלי רעש בקונסול
     if (r.status === 404 || r.status === 410) return null;
 
-    // שגיאות אחרות כן שווה לראות
     if (!r.ok) {
       console.warn("[CycleX] shard fetch failed:", r.status, url);
       return null;
@@ -2321,7 +2314,6 @@ cxEnsureClaimButton();
 }
 
 
-
     async function cxEnsureWeb3() {
   if (!window.cxAppKitModal?.getWalletProvider) {
     console.warn("[CycleX] AppKit not ready");
@@ -2337,7 +2329,7 @@ cxEnsureClaimButton();
 
   if (!providerSource) {
   console.log("[CycleX] No provider yet");
-  return false; // רק לוג, לא לוגיקה
+  return false; 
 }
 
   cxProvider = new ethers.BrowserProvider(providerSource);
@@ -2363,8 +2355,6 @@ cxContract = new ethers.Contract(
   return true;
 }
 
-
-// ✅ זה חייב להיות *מחוץ* לפונקציה
 window.cxEnsureWeb3 = cxEnsureWeb3;
 
 
@@ -2716,7 +2706,11 @@ function cxSetClaimUI(state, message) {
   <!-- ✅ CycleX Live On-Chain Metrics -->
 <script>
 (() => {
-  const CONTRACT_ADDRESS = "0xda63b65825AE30532a507B0C091B0bD9F8204F7E";
+  const CONTRACT_ADDRESS =
+  (typeof CX_CONTRACT_ADDRESS !== "undefined" && CX_CONTRACT_ADDRESS)
+    ? CX_CONTRACT_ADDRESS
+    : "0xda63b65825AE30532a507B0C091B0bD9F8204F7E";
+
 
   const RPCS = [
   "https://bsc-dataseed.binance.org",
@@ -2742,6 +2736,31 @@ function cxSetClaimUI(state, message) {
   const $ = (id) => document.getElementById(id);
 let _cxRpcProvider = null;
 let _cxRpcUrl = "";
+  let _metricsInFlight = false;
+
+function sleep(ms) {
+  return new Promise((r) => setTimeout(r, ms));
+}
+
+function resetRpcCache() {
+  _cxRpcProvider = null;
+  _cxRpcUrl = "";
+}
+
+async function withRetry(fn, tries = 2) {
+  let lastErr;
+  for (let i = 0; i < tries; i++) {
+    try {
+      return await fn();
+    } catch (e) {
+      lastErr = e;
+      resetRpcCache();
+      await sleep(250 * (i + 1));
+    }
+  }
+  throw lastErr;
+}
+
 async function pickProvider() {
   if (_cxRpcProvider) return _cxRpcProvider; // ✅ cache
 
@@ -2790,25 +2809,60 @@ async function pickProvider() {
   }
 
   async function refreshMetrics() {
-    const provider = await pickProvider();
-    const c = new ethers.Contract(CONTRACT_ADDRESS, ABI, provider);
+  if (_metricsInFlight) return; 
+  _metricsInFlight = true;
 
-    const stats = await c.globalStats();
+  try {
+    const stats = await withRetry(async () => {
+      const provider = await pickProvider();
+      const c = new ethers.Contract(CONTRACT_ADDRESS, ABI, provider);
+
+      try { c.interface.getFunction("globalStats"); } catch { return null; }
+
+      return await c.globalStats();
+    }, 2);
+
+    if (!stats) {
+      if ($("stat-rewards")) $("stat-rewards").textContent = "—";
+      if ($("stat-burned")) $("stat-burned").textContent = "—";
+      if ($("stat-last-cycle")) $("stat-last-cycle").textContent = "—";
+      return;
+    }
+
     const claimed = stats.claimed ?? stats[0];
     const burned  = stats.burned  ?? stats[1];
 
     if ($("stat-rewards")) $("stat-rewards").textContent = formatCYCX(claimed);
     if ($("stat-burned"))  $("stat-burned").textContent  = formatCYCX(burned);
 
-    const id = await c.latestCycleId();
+    const id = await withRetry(async () => {
+      const provider = await pickProvider();
+      const c = new ethers.Contract(CONTRACT_ADDRESS, ABI, provider);
+      return await c.latestCycleId();
+    }, 2);
+
     if (id === 0n) {
       if ($("stat-last-cycle")) $("stat-last-cycle").textContent = "—";
     } else {
-      const cy = await c.cycles(id);
+      const cy = await withRetry(async () => {
+        const provider = await pickProvider();
+        const c = new ethers.Contract(CONTRACT_ADDRESS, ABI, provider);
+        return await c.cycles(id);
+      }, 2);
+
       const startTime = cy.startTime ?? cy[1];
       if ($("stat-last-cycle")) $("stat-last-cycle").textContent = formatTime(startTime);
     }
+  } catch (e) {
+    console.warn("CycleX metrics error:", e);
+    if ($("stat-rewards")) $("stat-rewards").textContent = "—";
+    if ($("stat-burned")) $("stat-burned").textContent = "—";
+    if ($("stat-last-cycle")) $("stat-last-cycle").textContent = "—";
+  } finally {
+    _metricsInFlight = false;
   }
+}
+
 
   refreshMetrics().catch((e) => console.warn("CycleX metrics error:", e));
   setInterval(() => refreshMetrics().catch(() => {}), 60000);
@@ -2867,7 +2921,6 @@ console.log("🟢 [CycleX] AppKit initialized");
       //const provider = window.cxAppKitModal.getWalletProvider();
      // if (provider) {
        // console.log("🟢 [CycleX] Auto-reconnect: wallet already connected");
-        // לא פותחים modal – רק מחברים ethers
         //if (typeof window.cxEnsureWeb3 === "function") {
           //await window.cxEnsureWeb3();
         //}
