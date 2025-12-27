@@ -64,7 +64,7 @@
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
   animation: fadeBody 0.7s ease-out forwards;
-  opacity: 0;
+  opacity: 1;
 }
 
 
@@ -569,12 +569,6 @@
 @media (max-width: 650px){
   .social-grid{ grid-template-columns: 1fr; }
   .social-cta{ max-width: none; }
-}
-
-
-  .social-cta {
-    width: 100%;
-  }
 }
 
     /* modal (shared) */
@@ -1135,50 +1129,6 @@
     -webkit-overflow-scrolling: touch;
   }
 }
-@media (max-width: 900px) {
-  .rewards-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 768px) {
-  .page-shell { padding-inline: 16px; }
-
-  .top-bar { flex-direction: row; gap: 8px; }
-
-  .hero { margin-bottom: 32px; }
-  .hero-title { font-size: 34px; }
-
-  .section { padding-inline: 18px; }
-
-  .stats-grid { grid-template-columns: 1fr; }
-
-  body.modal-open .top-bar {
-    display: none !important;
-  }
-
-  .modal-backdrop.active,
-.calculator-modal.active {
-  align-items: center !important;
-  justify-content: center !important;
-  padding-top: calc(env(safe-area-inset-top, 0px) + 12px);
-  padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 12px);
-  padding-left: 12px;
-  padding-right: 12px;
-}
-
-  .modal,
-  .calculator-content {
-    max-height: calc(
-      100dvh
-      - env(safe-area-inset-top, 0px)
-      - env(safe-area-inset-bottom, 0px)
-      - 24px
-    );
-    overflow: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-}     
 
     }
   </style>
