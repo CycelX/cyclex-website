@@ -444,12 +444,20 @@
       color: var(--accent-cyan);
       font-weight: 500;
     }
-    /* ===== Social Cards (X / Telegram / Whitepaper) ===== */
+    /* ===== Social Cards (X / Telegram / Whitepaper/FAQ) ===== */
 .social-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 14px;
   margin-top: 18px;
+}
+    .social-grid {
+  align-items: stretch;
+  justify-items: stretch;
+}
+
+.social-card {
+  min-width: 0;
 }
 
 
@@ -554,12 +562,16 @@
     0 12px 30px rgba(0, 0, 0, 0.32);
 }
 
-
 /* mobile */
+@media (max-width: 1100px) {
+  .social-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
 @media (max-width: 900px) {
-  .social-grid {
-    grid-template-columns: 1fr;
-  }
+  .social-grid { grid-template-columns: 1fr; }
+  .social-cta { width: 100%; }
+}
+
   .social-cta {
     width: 100%;
   }
@@ -1474,84 +1486,86 @@
     Follow official updates, join the community, and read the full documentation.
   </p>
 
-  <div class="social-grid">
-    <!-- X / Twitter -->
-    <a class="social-card" id="social-x"
-       href="https://x.com/CyclexNetwork"
-       target="_blank" rel="noopener"
-       aria-label="Open X / Twitter">
-      <div class="social-icon" aria-hidden="true">
-        <!-- X icon -->
-        <svg viewBox="0 0 24 24">
-          <path d="M4 4l16 16M20 4L4 20"></path>
-        </svg>
-      </div>
-      <div class="social-meta">
-        <div class="social-title" data-i18n="social_x_title">X / Twitter</div>
-        <div class="social-desc" data-i18n="social_x_desc">Official announcements & updates</div>
-        <div class="social-cta" data-i18n="social_x_btn">Follow</div>
-      </div>
-    </a>
+ <div class="social-grid">
+  <!-- X / Twitter -->
+  <a class="social-card" id="social-x"
+     href="https://x.com/CyclexNetwork"
+     target="_blank" rel="noopener"
+     aria-label="Open X / Twitter">
+    <div class="social-icon" aria-hidden="true">
+      <!-- X icon -->
+      <svg viewBox="0 0 24 24">
+        <path d="M4 4l16 16M20 4L4 20"></path>
+      </svg>
+    </div>
+    <div class="social-meta">
+      <div class="social-title" data-i18n="social_x_title">X / Twitter</div>
+      <div class="social-desc" data-i18n="social_x_desc">Official announcements & updates</div>
+      <div class="social-cta" data-i18n="social_x_btn">Follow</div>
+    </div>
+  </a>
 
-    <!-- Telegram -->
-    <a class="social-card" id="social-tg"
-       href="https://t.me/cyclex_official"
-       target="_blank" rel="noopener"
-       aria-label="Open Telegram">
-      <div class="social-icon" aria-hidden="true">
-        <!-- Telegram icon -->
-        <svg viewBox="0 0 24 24">
-          <path d="M22 3L2 11l8 3 2 7 4-5 4 3 2-16Z"></path>
-          <path d="M10 14l12-11"></path>
-        </svg>
-      </div>
-      <div class="social-meta">
-        <div class="social-title" data-i18n="social_tg_title">Telegram</div>
-        <div class="social-desc" data-i18n="social_tg_desc">Join the community channel</div>
-        <div class="social-cta" data-i18n="social_tg_btn">Join</div>
-      </div>
-    </a>
+  <!-- Telegram -->
+  <a class="social-card" id="social-tg"
+     href="https://t.me/cyclex_official"
+     target="_blank" rel="noopener"
+     aria-label="Open Telegram">
+    <div class="social-icon" aria-hidden="true">
+      <!-- Telegram icon -->
+      <svg viewBox="0 0 24 24">
+        <path d="M22 3L2 11l8 3 2 7 4-5 4 3 2-16Z"></path>
+        <path d="M10 14l12-11"></path>
+      </svg>
+    </div>
+    <div class="social-meta">
+      <div class="social-title" data-i18n="social_tg_title">Telegram</div>
+      <div class="social-desc" data-i18n="social_tg_desc">Join the community channel</div>
+      <div class="social-cta" data-i18n="social_tg_btn">Join</div>
+    </div>
+  </a>
 
-    <!-- Whitepaper -->
-    <a class="social-card" id="social-wp"
-       href="https://cyclex.network/whitepaper.pdf"
-       target="_blank" rel="noopener"
-       aria-label="Open Whitepaper">
-      <div class="social-icon" aria-hidden="true">
-        <!-- Doc icon -->
-        <svg viewBox="0 0 24 24">
-          <path d="M7 3h7l3 3v15H7V3Z"></path>
-          <path d="M14 3v4h4"></path>
-          <path d="M9 12h6M9 16h6"></path>
-        </svg>
-      </div>
-      <div class="social-meta">
-        <div class="social-title" data-i18n="social_wp_title">Whitepaper</div>
-        <div class="social-desc" data-i18n="social_wp_desc">Full system design & rules</div>
-        <div class="social-cta" data-i18n="social_wp_btn">Read</div>
-      </div>
-    </a>
-  </div>
+  <!-- Whitepaper -->
+  <a class="social-card" id="social-wp"
+     href="https://cyclex.network/whitepaper.pdf"
+     target="_blank" rel="noopener"
+     aria-label="Open Whitepaper">
+    <div class="social-icon" aria-hidden="true">
+      <!-- Doc icon -->
+      <svg viewBox="0 0 24 24">
+        <path d="M7 3h7l3 3v15H7V3Z"></path>
+        <path d="M14 3v4h4"></path>
+        <path d="M9 12h6M9 16h6"></path>
+      </svg>
+    </div>
+    <div class="social-meta">
+      <div class="social-title" data-i18n="social_wp_title">Whitepaper</div>
+      <div class="social-desc" data-i18n="social_wp_desc">Full system design & rules</div>
+      <div class="social-cta" data-i18n="social_wp_btn">Read</div>
+    </div>
+  </a>
+
+  <!-- FAQ (PDF) -->
+  <a class="social-card" id="social-faq"
+     href="https://cyclex.network/FAQ.pdf"
+     target="_blank" rel="noopener"
+     aria-label="Open FAQ PDF">
+    <div class="social-icon" aria-hidden="true">
+      <!-- Q icon -->
+      <svg viewBox="0 0 24 24">
+        <path d="M12 18h.01"></path>
+        <path d="M9.5 9a2.5 2.5 0 1 1 4.2 1.8c-.9.5-1.7 1.1-1.7 2.2v.5"></path>
+        <path d="M12 22a10 10 0 1 0-10-10 10 10 0 0 0 10 10Z"></path>
+      </svg>
+    </div>
+    <div class="social-meta">
+      <div class="social-title" data-i18n="social_faq_title">FAQ</div>
+      <div class="social-desc" data-i18n="social_faq_desc">Quick answers (PDF)</div>
+      <div class="social-cta" data-i18n="social_faq_btn">Open</div>
+    </div>
+  </a>
+</div>
 </section>
-    <!-- FAQ (PDF) -->
-<a class="social-card" id="social-faq"
-   href="/faq.pdf"
-   target="_blank" rel="noopener"
-   aria-label="Open FAQ PDF">
-  <div class="social-icon" aria-hidden="true">
-    <!-- Q icon -->
-    <svg viewBox="0 0 24 24">
-      <path d="M12 18h.01"></path>
-      <path d="M9.5 9a2.5 2.5 0 1 1 4.2 1.8c-.9.5-1.7 1.1-1.7 2.2v.5"></path>
-      <path d="M12 22a10 10 0 1 0-10-10 10 10 0 0 0 10 10Z"></path>
-    </svg>
-  </div>
-  <div class="social-meta">
-    <div class="social-title" data-i18n="social_faq_title">FAQ</div>
-    <div class="social-desc" data-i18n="social_faq_desc">Quick answers (PDF)</div>
-    <div class="social-cta" data-i18n="social_faq_btn">Open</div>
-  </div>
-</a>
+
 
 
     <!-- footer -->
